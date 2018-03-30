@@ -56,12 +56,12 @@
 #### 1) 规则结构  
 > - CSS整体结构由选择器+声名块组成；
 > - 有的属性可以接受多个关键字，每个关键字用空格分开；
-> - 只有一种情况是例外的，用斜线分割字体大小和行高两个关键字，；  font的其他关键字都用空格分隔
-
-    h2{  
+> - 只有一种情况是例外的，用斜线分割字体大小和行高两个关键字，；  font的其他关键字都用空格分隔  
+  
+    h2{  
         font:large/150%;  
-        sans-serif;
-    }
+       sans-serif;  
+    }       
     
 >>>>>> ![图1-1 CSS规则结构](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE1-1%20CSS%E8%A7%84%E5%88%99%E7%BB%93%E6%9E%84.png?raw=true)   
 
@@ -83,7 +83,7 @@
 > - 属性名后面包含具体的属性值也可以，如  
 
     p[id="apple"]{  
-      font:bold;
+      font:bold;  
     }  
     
 > - 属性名部分属性值选择，使用元素 + "\[" + 属性名 + "\]" + “~” + “= 属性值”，如果忽略这个波浪号，这就需要属性值的完全匹配；
@@ -100,19 +100,19 @@
 > - 语言选择，元素 + “：”+lang(语言);
 > - 设置首字母样式，元素 + “：”+first-letter;
 > - 设置首行样式，元素 + “：”+first-line;
-> - 设置之前和之后的元素样式，如下面的语句，相当于在h2元素之前添加两个“}”；
-    
-    h2:before{  
-        content:"}}";  
-        color:silver;  
-    }
-    
+> - 设置之前和之后的元素样式，如下面的语句，相当于在h2元素之前添加两个“}”；    
+
+    h2:before{    
+      content:"}}";   
+      color:silver;   
+    }  
+        
 > - 伪元素选择器必须放在选择器的最后面
 >>>>>> ![图1-2 链接伪类](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE1-2%20%E9%93%BE%E6%8E%A5%E4%BC%AA%E7%B1%BB.png?raw=true) 
 >>>>>> ![图1-3 动态伪类a](https://raw.githubusercontent.com/hblvsjtu/CSS_Study/6da97dc10d2248db251897494712f8a29458d805/picture/%E5%9B%BE1-2%20%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BBa.png) 
 >>>>>> ![图1-3 动态伪类b](https://raw.githubusercontent.com/hblvsjtu/CSS_Study/6da97dc10d2248db251897494712f8a29458d805/picture/%E5%9B%BE1-2%20%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BBb.png)   
 
-<h3 id='1.3'>选择器规则</h3>  
+<h3 id='1.3'>1.3 选择器规则</h3>  
 
 #### 1) 特殊性值
 > - 每个选择器的初始特殊性值为0，0，0，0；
@@ -124,12 +124,12 @@
 > - 特殊性越高的会覆盖特殊性越低的；
 #### 2) 重要性!impotance
 > - 放在声明块内分号的前面，如果放错位置了，整个声明会变得无效；
-> - 如果将一个重要声明和一个费重要声明放在一起，胜出的总会是重要声明；  
+> - 如果将一个重要声明和一个费重要声明放在一起，胜出的总会是重要声明;  
 
-    p{
-      font: red !importance;
-    }
-  
+    p{    
+      font: red !importance;    
+    }  
+     
   
 <h3 id='1.4'>1.4 继承</h3>  
  
