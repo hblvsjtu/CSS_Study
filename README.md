@@ -15,15 +15,14 @@
 ### [1.3 选择器规则](#1.3) 
 ### [1.4 继承](#1.4)
 ### [1.5 层叠](#1.5)
-## [二、结构和层叠](#2)
-### [2.1 元数据——文档结构元素](#2.1)
-### [2.2 短语元素——标记文字](#2.2) 
-### [2.3 流元素——组织内容](#2.3)
+## [二、值，颜色和单位](#2)
+### [2.1 值](#2.1)
+### [2.2 颜色](#2.2) 
+### [2.3 单位](#2.3)
 ### [2.4 流元素——文档分节](#2.4)
-## [三、表格元素](#3)
-### [3.1 表格元素](#3.1)
-### [3.2 制作不规则表格](#3.2)
-## [四、表单元素](#4)
+## [三、字体](#3)
+### [3.1 字体属性](#3.1)
+## [四、文本](#4)
 ### [4.1 表格元素](#4.1)
 ### [4.2 配置表单](#4.2)
 ### [4.3 input元素和fieldset元素和button元素](#4.3)
@@ -144,7 +143,127 @@
 > - 标志!impotance要比没有!impotance的要强；
 > - 按照来源来分，!impotance的读者 > !impotance的创作人员 > 创作人员 > 读者 > 用户代理；
 > - 其他的比较特殊性，如果特殊性相同，则比较出现时间，如果出现时间越晚，特殊性越强，一般认为导入的样式表的声明在前，主样式表的所有声明在后；
-> - 伪类规则：LVHA，：link{} ：visit{} ：hover{} :active{}  
+> - 伪类规则：LVHA，：link{} ：visit{} ：hover{} :active{}     
+
+------  
+
+<h2 id='2'> 二、值，颜色和单位 </h2>
+<h3 id='2.1'>2.1 值</h3>     
+
+#### 1) 整数和百分数
+> - 好像没什么好讲的
+
+<h3 id='2.2'>2.2 颜色</h3>    
+
+#### 1) 规范中的17种颜色
+>>>>>> ![图2-1 CSS规范定义的颜色_17](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE2-1%20CSS%E8%A7%84%E8%8C%83%E5%AE%9A%E4%B9%89%E7%9A%84%E9%A2%9C%E8%89%B2_17.png?raw=true) 
+#### 2) RGB函数式记法
+> - 百分数记法 rgb(75%,50%,50%);
+> - 整数三元组记法（取值范围0~255） rgb(191,127,127)；
+#### 3) RGB十六进制记法
+> - 十六进制记法其实就是用函数式记法的每一位数用一个十六进制数来表示，如：   
+
+    h1{color: #FF0000;} /* set h1s to red */    
+    或者是一种简写记法，你可以只写三位，比如ABC，然后浏览器会取每一位然后进行复制，变成AABBCC；    
+    h1{color: #F00;} /* 跟上面那个是等价的 */  
+    
+> - 当然了，这就意味着并不是所有颜色都可以采用这种简写的方式；
+>>>>>> ![图2-2 等价颜色表a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE2-2%20%E7%AD%89%E4%BB%B7%E9%A2%9C%E8%89%B2%E8%A1%A8a.png?raw=true) 
+>>>>>> ![图2-2 等价颜色表b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE2-2%20%E7%AD%89%E4%BB%B7%E9%A2%9C%E8%89%B2%E8%A1%A8b.png?raw=true) 
+
+<h3 id='2.3'>2.3 单位</h3>     
+
+#### 1) 绝对长度单位
+> - 英寸in;
+> - 厘米cm
+> - 毫米；
+> - 点pt，1 in=72 pt，但是实际上现在的屏幕一英寸里面不止有72个像素，单位是PPI，有的可能有上百个；
+> - 派卡pc，1 in=72 pt=12 pc。同上；
+#### 2) 相对长度单位
+> - em，em-height，常用的印刷单位，一般1 em = 14 pt,但是这个对应关系可以更改；
+> - ex，x-height，代表着小写x的高度，一般是em的一半（不要问我，我也不知道这个一半是怎么来的），但是，这个状况比较复杂，因为不同的字体x的高度是不一样的，实际不好操作；    
+
+------  
+
+<h2 id='3'> 三、字体 </h2>
+<h3 id='3.1'>3.1 字体属性</h3>    
+
+#### 1) 字体属性  
+> - 
+>>>>>> ![图3-2 字体加粗](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-8%20%E5%AD%97%E4%BD%93%E5%B1%9E%E6%80%A7.png?raw=true)   
+
+#### 2) 通用字体系列font-family
+> - 用户代理会选择从font-family系列中选取一种字体；
+> - 为什么要这样做呢？我才是各个用户代理安装的字体都不一样，选择通用字体系列的话，它可以自己选择合适的字体，但是这样的话就无法确定不同客户代理到底会选择具体怎样的字体了；
+> - 如果font-family中含有空格或者#或者$，则需要添加引号，其实双引号和单引号都可以，但是有一点需要注意的是不能跟外面的引号冲突，因为在HTML文档中style属性的值也是需要引号的，这两个引号不能相同就可以了；
+> - 通用字体系列包括：Serif，Sans-serif,Monospace,Cursive,FanTasy;
+> - 可以从中一次写下备选字体，让用户代理自己按照出现的先后使用，如：    
+
+    p{    
+    font-family:Times, TimesNR, 'New Century Schoolbook', Georgia, 'New York', serif;     
+    }   
+    
+> - q
+>>>>>> ![图3-1 通用字体系列](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-1%20%E9%80%9A%E7%94%A8%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97.png?raw=true)   
+
+#### 3) 字体加粗  
+> - 加粗一共分为9级，从100到900；
+>>>>>> ![图3-3 字体加粗](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-2%20%E5%AD%97%E4%BD%93%E5%8A%A0%E7%B2%97.png?raw=true)  
+
+> - 继承，CSS规范中指出，每个数对应着一个加粗度，它至少与前一个数的加粗度相同；
+> - 如果设置一个元素的加粗设置为bolder,用户代理首先必须确定从父元素继承的font-weight值，然后选择一个数，它对应于比所继承值更粗的一个字体加粗，而且在满足这个条件的所有数中，要选择一个最小的数。如果没有可用的字体，用户代理会把该元素加粗设置为下一个更大的数字值，除非这个值已经是900；
+>>>>>> ![图3-9 特定字体假想指定](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-9%20%E7%89%B9%E5%AE%9A%E5%AD%97%E4%BD%93%E5%81%87%E6%83%B3%E6%8C%87%E5%AE%9A.png?raw=true)     
+  
+#### 4) 字体大小  
+> - 绝对大小：xx-small,x-small,small,medium,large,x-large,xx-large;
+> - 用户代理决定缩放因子，一般放大为1.5倍，缩小为0.66倍；
+> - 继承，相对大小：百分数
+>>>>>> ![图3-4 字体大小](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-3%20%E5%AD%97%E4%BD%93%E5%A4%A7%E5%B0%8F.png?raw=true)   
+
+#### 5) 字体风格  
+> - italic斜体，有点像手写；
+> - oblique倾斜，就是普通的把字体倾斜个某个角度；
+>>>>>> ![图3-5 字体风格](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-4%20%E5%AD%97%E4%BD%93%E9%A3%8E%E6%A0%BC.png?raw=true)   
+
+#### 6) 字体变形  
+> - 
+>>>>>> ![图3-6 字体变形](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-5%20%E5%AD%97%E4%BD%93%E5%8F%98%E5%BD%A2.png?raw=true)  
+
+#### 7) 字体拉伸  
+> - 
+>>>>>> ![图3-7 字体拉伸](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-6%20%E5%AD%97%E4%BD%93%E6%8B%89%E4%BC%B8.png?raw=true)  
+
+#### 8) 字体调整  
+> - 
+>>>>>> ![图3-8 字体调整](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-7%20%E5%AD%97%E4%BD%93%E8%B0%83%E6%95%B4.png?raw=true)  
+
+#### 9) 字体属性  
+> - 如   
+    
+    h1{   
+          font:italic 900 small-caps 30px Verdana, Helvetica, Arial, sans-serif;    
+    }   
+    
+>>>>>> ![图3-8 字体调整](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-7%20%E5%AD%97%E4%BD%93%E8%B0%83%E6%95%B4.png?raw=true)  
+> - 可以使用系统字体，如caption，icon，menu，message-box,  small-caption,  status-bar,如：   
+    
+    button{   
+    font：caption;   
+    }   
+    
+#### 10) 字体下载  
+> - 采用这种方法，用户代理可以从文档中下载一个远程字体来使用，如：   
+    
+    @font-face{   
+    font-family:"Scarborough Fair";   
+    scr: url(http://www.example.com/fonts/ps/Scarborough.ps);   
+    }   
+        
+   
+        
+        
+    
+
  
  
  
