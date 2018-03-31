@@ -19,15 +19,12 @@
 ### [2.1 值](#2.1)
 ### [2.2 颜色](#2.2) 
 ### [2.3 单位](#2.3)
-### [2.4 流元素——文档分节](#2.4)
 ## [三、字体](#3)
 ### [3.1 字体属性](#3.1)
 ## [四、文本](#4)
-### [4.1 表格元素](#4.1)
-### [4.2 配置表单](#4.2)
-### [4.3 input元素和fieldset元素和button元素](#4.3)
-### [4.4 定制input元素](#4.4)
-### [4.5 其他表单元素及输入验证](#4.5)
+### [4.1 文本属性](#4.1)
+### [4.2 字间隔与字符间隔](#4.2)
+### [4.3 其他文本操作](#4.3)
 ## [五、嵌入内容](#5)
 ### [5.1 嵌入图像](#5.1)
 ### [5.2 嵌入另一张HTML文档](#5.2)
@@ -181,12 +178,30 @@
 > - 派卡pc，1 in=72 pt=12 pc。同上；
 #### 2) 相对长度单位
 > - em，em-height，常用的印刷单位，一般1 em = 14 pt,但是这个对应关系可以更改；
-> - ex，x-height，代表着小写x的高度，一般是em的一半（不要问我，我也不知道这个一半是怎么来的），但是，这个状况比较复杂，因为不同的字体x的高度是不一样的，实际不好操作；    
+> - ex，x-height，代表着小写x的高度，一般是em的一半（不要问我，我也不知道这个一半是怎么来的），但是，这个状况比较复杂，因为不同的字体x的高度是不一样的，实际不好操作；
+#### 3) [pt和px的区别:点击查看出处](https://www.douban.com/note/155032221/)
+> - 字体大小的设置单位，常用的有2种：px、pt。这两个有什么区别呢？先搞清基本概念：
+> - px就是表示pixel，像素，是屏幕上显示数据的最基本的点；
+> - pt就是point，是印刷行业常用单位，等于1/72英寸。
+> - 这样很明白，px是一个点，它不是自然界的长度单位，谁能说出一个“点”有多长多大么？可以画的很小，也可以很大。如果点很小，那画面就清晰，我们称它为“分辨率高”，反之，就是“分辨率低”。所以，“点”的大小是会“变”的，也称为“相对长度”。
+> - pt全称为point，但中文不叫“点”，查金山词霸可以看到，确切的说法是一个专用的印刷单位“磅”，大小为1/72英寸。所以它是一个自然界标准的长度单位，也称为“绝对长度”。
+> - 因此就有这样的说法，pixel是相对大小，而point是绝对大小。
 
 ------  
 
 <h2 id='3'> 三、字体 </h2>
-<h3 id='3.1'>3.1 字体属性</h3>    
+<h3 id='3.1'>3.1 字体属性</h3>  
+
+>> 名字|初始值|应用于|继承性|百分数
+>> -|-|-|-|-
+>> font-family|用户代理指定的值|所有元素|有|无
+>> font-weight|normal|所有元素|有|无
+>> font-size|medium|所有元素|有|跟据父元素字体大小计算
+>> font-style|normal|所有元素|有|无
+>> font-variant|normal|所有元素|有|无
+>> font-strectch|normal|所有元素|有|无
+>> font-size-adjust|normal|所有元素|有|无
+>> font|normal|所有元素|有|无
 
 #### 1) 字体属性  
 > - 
@@ -203,7 +218,6 @@
     font-family:Times, TimesNR, 'New Century Schoolbook', Georgia, 'New York', serif;     
     }   
     
-> - q
 >>>>>> ![图3-1 通用字体系列](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE3-1%20%E9%80%9A%E7%94%A8%E5%AD%97%E4%BD%93%E7%B3%BB%E5%88%97.png?raw=true)   
 
 #### 3) 字体加粗  
@@ -259,10 +273,86 @@
     scr: url(http://www.example.com/fonts/ps/Scarborough.ps);   
     }   
         
-   
-        
-        
+
+------  
+
+<h2 id='4'> 四、文本 </h2>
+<h3 id='4.1'>4.1 文本属性</h3>    
+
+>> 名字|初始值|应用于|继承性|百分数
+>> -|-|-|-|-
+>> text-indent|0|块级元素|有|相对于包含块的宽度
+>> text-align|无|块级元素|有|无
+>> line-height|normal|所有元素|有|相对于(父-优先)元素的字体大小
+>> vertical-align|baseline|行内元素与表单元格|无|相对于line-height的大小
+>> word-spacing|normal|所有元素|有|无
+>> letter-spacing|normal|所有元素|有|无
+>> text-transform|none|所有元素|有|无
+>> text-decration|none|所有元素|无|无
+>> white-space|none|所有元素|无|无
+
+#### 1) 文本缩进  
+> -  text-indent   可以是一个负数，负数表示悬挂缩进（一种段落格式，在这种段落格式中，段落的第二行和后续行缩进量大于第一行。悬挂缩进常用于项目符号和编号列表）；
+> -  以前有人为了缩进，把图片嵌套进去作为空格，因为图片img也属于一种短语元素；
+>>>>>> ![图4-1 文本缩进](https://raw.githubusercontent.com/hblvsjtu/CSS_Study/b4d1124a5e5a747392c85de296b6601c26d36c53/picture/%E5%9B%BE4-1%20%E6%96%87%E6%9C%AC%E7%BC%A9%E8%BF%9B.png)  
+#### 2) 水平对齐  
+> -  text-align 虽然可能会弄混text-align：center和<center>元素的作用，实际上他们呢是有明显的区别的，text-align：center不会控制元素的对齐，而只影响其内部的内容；<center>元素不仅可以影响文本，还可以把整个元素居中；
+>>>>>> ![图4-2 文本对齐](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-2%20%E6%96%87%E6%9C%AC%E5%AF%B9%E9%BD%90.png?raw=true)   
+  
+#### 3) 垂直对齐  
+> - line-height 指文本行基线之间的距离，而不是字体的大小，他确定了将各个元素框的高度增加或者减少多少。    
+> - line-height=字体高度 + 2\*行间距； 
+>>>>>> ![图4-3 文本对齐](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-3%20%E5%9E%82%E7%9B%B4%E5%AF%B9%E9%BD%90.png?raw=true)   
+>>>>>> ![图4-4 行框图](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-4%20%E8%A1%8C%E6%A1%86%E5%9B%BE.png?raw=true)
+> - 百分数是相对于font-size计算的
+>>>>>> ![图4-5 line-height的继承](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-5%20line-height%E7%9A%84%E7%BB%A7%E6%89%BF.png?raw=true)
+> - 继承font-size的时候是从父元素哪里继承的，而不是在子元素上计算的
+>>>>>> ![图4-6 line-height的行高继承](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-6%20line-height%E7%9A%84%E8%A1%8C%E9%AB%98%E7%BB%A7%E6%89%BF.png?raw=true)
+> - 为了避免这个问题，一种解决办法是为每个元素设置一个显式的line-height，但是这种方法不太实用，最好是指定一个数，由它设置缩放因子,这样所有的元素都会跟据自己的font-size计算line-height:    
     
+    body{font-size:10px;}     
+    div{line-height: 1;}    
+    p{font-size: 18px;}     
+        
+#### 4) 垂直对齐文本  
+> - 只针对行内元素和表格；
+> - 居中对齐有点奇怪，middle会把行内元素框的中点与父元素基线上方0.5ex(1ex=0.5em=0.5\*font-size)处的一个点对齐；
+>>>>>> ![图4-7 vertical-align](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-7%20vertical-align.png?raw=true)   
+    
+    
+<h3 id='4.2'>4.2 字间隔和字母间隔</h3>  
+  
+#### 1) 字间隔
+> - “字”的定义：任何非空白符字符组成的串，并由某种空白符包围。
+> - 字符间隔有可能会受到text-align的影响，特别是两端对齐的时候；
+>>>>>> ![图4-8 word-spacing.png](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-8%20word-spacing.png?raw=true)
+#### 2) 字母间隔
+> - 那就是字符或者字母之间的间隔喽。
+> - 字符间隔有可能会受到text-align的影响，特别是两端对齐的时候，如果letter-spacing的值是normal的话，间距由text-align控制，如果letter-spacing的值是其他绝对或者相对的值的话，间距则由letter-spacing控制；
+>>>>>> ![图4-9 letter-spacing](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-9%20letter-spacing.png?raw=true)  
+    
+<h3 id='4.3'>4.3 其他文本操作</h3>  
+  
+#### 1) 文本转换
+> - 有两个好处：第一就是无需改动父元素的样式，即插即用；第二个就是方便修改；    
+
+>>>>>> ![图4-10 text-transform](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-10%20text-transform.png?raw=true)    
+
+#### 2) 文本装饰
+> - 用于去除超链接中的下划线的时候就特别有用；   
+    
+    a{    
+        text-decoration: none;    
+     }    
+        
+        
+>>>>>> ![图4-11 text-decoration](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-10%20text-transform.png?raw=true)    
+#### 3) 文本阴影text-shadow
+#### 4) 处理空白符white-space 
+> - wrap一般用来处理换行；
+>>>>>> ![图4-12 white-space](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE4-12%20white-space.png?raw=true) 
+#### 5) 方向direction
+    
 
  
  
