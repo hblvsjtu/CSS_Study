@@ -364,11 +364,41 @@
 > - 对一个元素而言，width指的是左内边界到右内边界的距离，height则是上内边界到下内边界的距离，其中内边距和外边距和边框会增加整个元素框的宽度，但是需要注意的是整个元素框的宽度和一个元素的宽度不是一回事；
 >>>>>> ![图5-1 盒子模型](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-1%20%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B.png?raw=true) 
 > - 正常流中块级元素的水平部分总和（外边距+边框+内边距+子元素width）等于父元素的width，比如div和他内部的文本；
-#### 2) 水平格式化
-> - 水平属性 父元素width = margin-left + border-left + padding-left + 子元素width +  margin-right + border-right + padding-right
-
-    
-
+#### 2) 非替代元素的水平格式化
+> - 7个水平属性    
+    
+    父元素width    
+        = 元素框的宽度     
+        = margin-left + border-left + padding-left + 子元素width +  margin-right + border-right + padding-right     
+               
+> - 其中只有width，margin-left和margin-right可以设置auto，其余属性必须设置为特定的值或者0，而width必须设置为auto或者某种特定的非负值；
+> - 如果width，margin-left和margin-right都被限制了（设置了某个值），但是他们的和并不等于元素框的宽度，这就说明格式化属性被过分限制了，此时margin-right会被强制设置为auto；
+> - 如果margin-left和margin-right被设置为auto，则满足以下关系式，而且子元素会居中    
+    
+    margin-left = margin-right = （元素框的宽度 - 子元素width）/2    
+    
+> - 如果width和某个margin被设置为auto，则满足以下关系式，而且子元素会居中;     
+    
+    margin = 0;   
+    子元素width = margin-other = width/2        
+    
+> - 如果width，margin-left和margin-right三个都被设置为auto，则满足以下关系式，而且子元素会居中 
+    
+    margin-left = margin-right = 0;   
+    子元素width = 元素框的宽度;    
+    
+> - 除了margin-left和margin-right同时被设置为auto，他们其中一个被设置为auto，那么该值就会被设置为0；
+> - 外边框被设置为负数也是合法的，只要7个属性加起来等于元素框宽度就可以了；
+> - 当然了，你也可以使用百分数，该比例指的是占元素框宽度的比例；
+#### 3) 替代元素的水平格式化
+> - 非替代元素的水平格式化规则完全适用于替代元素的水平格式化，只有一点例外，当替代元素的width被设置为为auto的时候，该元素的width等于内容的固有宽度；
+> - 如果非替代元素的宽度被设定不同于其固有宽度的时候，其宽度和高度就会按比例的缩；
+#### 4) 垂直格式化
+> - 如果设置的height高于内容本身的高度的时候，就会产生一种虚假的视觉效果——额外的内边框；
+> - 如果设置的height低于内容本身的高度的时候，浏览器一般会给你加一个滚动条；
+> - 垂直居中的遗憾：垂直居中不像水平居中，只要把两个外边同时设置为auto就可以，在垂直居中中，无论是只有一个外边框，还是两个外边框都同时为auto，他们都会被设置为0。所以，当两个外边框都被设置为auto的时候，得到的结果只会是子元素的高度占满整个元素框的高度；
+> - 合并垂直外边框 相邻外边框沿着数竖轴合并，换句话说，两个外边框中较小的一个会被较大的一个合并（或者说重叠）；
+> - 负外边距 如果垂直外边距都设置为负值，浏览器会取这两个外边界绝对值的最大值；如果一个正外边距与一个负外边距合并，会从正外边距减去这个负外边距的绝对值（换句话讲，负值要增加到正值，所得到的就是元素间的距离）
  
  
  
