@@ -498,7 +498,7 @@
 > - 一般来讲，块元素的后代可以是行内元素，但是行内元素的后代不能是块元素。但是有时候我先要块元素作为行内元素使用怎么办？
 > - 可以使用inline-block行内块元素，在行内可以实现块元素的特性，比如在段落文本行框中放入一个行内块元素，那么他的内容块底端就会默认与基线对齐，而且内部没有行分隔符，又可以使用height，width等块元素的特性。
 > - 如果设置width为auto或者选择默认，那么行内块元素的内容框就会紧包着内容，但是也会有一个问题就是，行内块元素不会跨过多个文本行；
->>>>>> ![图5-10 inline-block](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-9%20%E5%B0%86%E6%98%BE%E7%A4%BA%E8%A7%92%E8%89%B2%E7%94%B1list-item%E6%94%B9%E4%B8%BAinline.png?raw=true)   
+>>>>>> ![图5-10 inline-block]https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-10%20inline-block.png?raw=true)   
 
 >> run in
 > - 使本元素（本元素原来默认是一个块级元素）成为下一个紧接着的元素（这个元素也默认是一个块级元素）的行内元素；   
