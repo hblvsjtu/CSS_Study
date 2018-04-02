@@ -445,10 +445,74 @@
 >>>>>> ![图5-6 文本重叠](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-6%20%E6%96%87%E6%9C%AC%E9%87%8D%E5%8F%A0.png?raw=true)
 >> 当然了还有其他方法，比如一开始设置inline-height原始值是一个比较大的值，或者设置一个比较大的缩放因子，又或者增加子元素的属性，比如利用短语元素span设置内边框
 >> vertical-align会改变内容区和行内框的位置（在基线附近偏移），从而改变整行的行框。
->>>>>> ![图5-5 vertical-align的值](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-5%20vertical-align%E7%9A%84%E5%80%BC.png?raw=true)     
->> 外边距，外边框，内边距不影响行高（也就是上下内外边距和边界，因为只有inline-height才会影响 ），但是会影响左右跟别的元素的距离（也就是左右内外边距和边界）    
+>> vertical-align影响的因素只有inline-height和基线位置；
+>>>>>> ![图5-5 vertical-align的值](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-5%20vertical-align%E7%9A%84%E5%80%BC.png?raw=true)     
+>> 外边距，边框，内边距不影响行高（也就是上下内外边距和边界，因为只有inline-height才会影响 ），但是会影响左右跟别的元素的距离（也就是左右内外边距和边界）
+>> 外边距，边框，内边距虽然不影响行高和边界，但是如果给元素添加背景色（边框+内边距）的话，由于后面的元素会覆盖前面的元素，这也会产生遮盖。
 #### 3) 行内替换元素
+>> 用替换元素整体（包括内容，外边距，边框和内边距）来定义行内替换元素的行内框；
+>> 负外边距会使替换元素的行内框小于正常的大小。负外边框是使行内替换元素挤入其他行的唯一办法。
+>> 替换元素的行内框底端一般会比基线高一点点，这样有时候就很难看了
+>>>>>> ![图5-7 行内替换元素位于基线上](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-7%20%E8%A1%8C%E5%86%85%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0%E4%BD%8D%E4%BA%8E%E5%9F%BA%E7%BA%BF%E4%B8%8A.png?raw=true)     
+>> 解决的办法还是有的，第一种方法：使行内替换元素属性变成block块级元素；第二种方法：把包含图像的表单元格的font-size和line-height都设置成跟替换元素等高的长度；第三种方法：使用负的border-bottom，把替换元素拉下去，但是这种方法有一个缺陷，就是容易纠枉过正，把替换元素拉到下一行去了，当然了有的浏览器只是把内容区的底端放到基线上，而忽略负的下边框距；
+#### 4) 改变元素显示
+>> list-item——ul的显示角色;
+>>>>>> ![图5-8 display的属性](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-8%20display%E7%9A%84%E5%B1%9E%E6%80%A7.png?raw=true) 
 
+> - 比较使用的一种技巧是利用角色的改变，把无序列表从纵向改成横向，如：
+    
+    <head>
+			<title>form表单</title>
+				<link rel="stylesheet" type="text/css" href="style.css"/>
+				<style>
+					ul li{
+						display:inline;
+						padding:0 0.33em;
+						border-right: 1px solid;
+					}
+					ul li:first-child{
+						border-left: 1px solid;
+					}
+			</style>
+		</head>   
+      
+    </div>
+      <ul>
+        <li class="dis_block">冰红茶1</li>
+        <li class="dis_block">冰红茶2</li>
+        <li class="dis_block">冰红茶3</li>
+        <li class="dis_block">冰红茶4</li>
+        <li class="dis_block">冰红茶5</li>
+      <ul>
+    <div>   
+    
+>>>>>> ![图5-9 将显示角色由list-item改为inline](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-9%20%E5%B0%86%E6%98%BE%E7%A4%BA%E8%A7%92%E8%89%B2%E7%94%B1list-item%E6%94%B9%E4%B8%BAinline.png?raw=true)  
+
+>> inline-block
+> - 一般来讲，块元素的后代可以是行内元素，但是行内元素的后代不能是块元素。但是有时候我先要块元素作为行内元素使用怎么办？
+> - 可以使用inline-block行内块元素，在行内可以实现块元素的特性，比如在段落文本行框中放入一个行内块元素，那么他的内容块底端就会默认与基线对齐，而且内部没有行分隔符，又可以使用height，width等块元素的特性。
+> - 如果设置width为auto或者选择默认，那么行内块元素的内容框就会紧包着内容，但是也会有一个问题就是，行内块元素不会跨过多个文本行；
+>>>>>> ![图5-10 inline-block](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-9%20%E5%B0%86%E6%98%BE%E7%A4%BA%E8%A7%92%E8%89%B2%E7%94%B1list-item%E6%94%B9%E4%B8%BAinline.png?raw=true)   
+
+>> run in
+> - 使本元素（本元素原来默认是一个块级元素）成为下一个紧接着的元素（这个元素也默认是一个块级元素）的行内元素；   
+> - 但是截至到目前2018-04-02我的chrome还不支持这个功能；    
+    
+    
+    <h1 style="display: run in">    
+      Run in text   
+    </h1>   
+    <p>   
+      我是下一个块级元素   
+    </p>    
+        
+  
+        
+        
+
+
+        
+        
 
 
 
