@@ -396,10 +396,62 @@
 #### 4) 垂直格式化
 > - 如果设置的height高于内容本身的高度的时候，就会产生一种虚假的视觉效果——额外的内边框；
 > - 如果设置的height低于内容本身的高度的时候，浏览器一般会给你加一个滚动条；
+> - 如果父元素没有设置绝对高度，而子元素设置了百分数高度，由于没有继承，所以子元素的百分数高度无效；
 > - 垂直居中的遗憾：垂直居中不像水平居中，只要把两个外边同时设置为auto就可以，在垂直居中中，无论是只有一个外边框，还是两个外边框都同时为auto，他们都会被设置为0。所以，当两个外边框都被设置为auto的时候，得到的结果只会是子元素的高度占满整个元素框的高度；
+> - 但是垂直居中也有办法，比如   
+    
+    <div height=6em>    
+        <p height=50%>    
+            冰红茶无法垂直居中   
+        </p>    
+     </div>    
+            
+    <div  style="height: auto; border-top: 1px solid; border-bottom: 1px solid;">   
+        <p  style="background-color:yellow;">   
+             冰红茶垂直居中，上下边距等于1em;    
+        </p>    
+    </div>    
+            
+> - 高度设置为auto的问题：对于正常的流元素，设置父元素高度为auto，如果父元素没有设置内边距或者边框，则父元素高度=子元素上下外边框的距离，此时会造成一个后果：子元素的外边距会超过父元素的外边界；否则，父元素高度=子元素上下外边距边界的距离； 
 > - 合并垂直外边框 相邻外边框沿着数竖轴合并，换句话说，两个外边框中较小的一个会被较大的一个合并（或者说重叠）；
-> - 负外边距 如果垂直外边距都设置为负值，浏览器会取这两个外边界绝对值的最大值；如果一个正外边距与一个负外边距合并，会从正外边距减去这个负外边距的绝对值（换句话讲，负值要增加到正值，所得到的就是元素间的距离）
- 
+> - 负外边距 如果垂直外边距都设置为负值，浏览器会取这两个外边界绝对值的最大值；如果一个正外边距与一个负外边距合并，会从正外边距减去这个负外边距的绝对值（换句话讲，负值要增加到正值，所得到的就是元素间的距离）；如：   
+    
+    li{border-bottom: 20px;}    
+    ul{border-bottom: -15px}    
+    h1{border-top:-18px}    
+    
+>>>>>> ![图5-2 正负外边距合并](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-2%20%E6%AD%A3%E8%B4%9F%E5%A4%96%E8%BE%B9%E8%B7%9D%E5%90%88%E5%B9%B6.png?raw=true) 
+> - 重叠顺序 最后讲一下关于重叠到底线是谁的问题，一般来讲，浏览器显示的顺序是从前往后的，所以后面的会覆盖前面的    
+
+<h3 id='5.2'>5.2 行内元素</h3>    
+
+#### 1) 行布局
+>> 由于行内元素没有设置内边距和外边距，所以边界会有些重叠；
+>> 基本术语介绍：
+>> 非替换元素：   行内框= inline-height=行间距+font-size(内容区高度)；   
+>> 替换元素：     行内框=内容区高度=固有高度+外边距+边框+内边距;
+>> 行框=max{行内框1，行内框1 ,行内框n} - min{行内框1，行内框1 ,行内框n};
+>>>>>> ![图5-3 基本术语a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-3%20%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%AD.png?raw=true)    
+>>>>>> ![图5-3 基本术语b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-3%20%E5%9F%BA%E6%9C%AC%E6%9C%AF%E8%AF%ADb.png?raw=true)   
+>>>>>> ![图5-4 确定行中个元素行内框的高度](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-4%20%E7%A1%AE%E5%AE%9A%E8%A1%8C%E4%B8%AD%E4%B8%AA%E5%85%83%E7%B4%A0%E8%A1%8C%E5%86%85%E6%A1%86%E7%9A%84%E9%AB%98%E5%BA%A6.png?raw=true) 
+
+>> 行内元素的背景应用于内容区及所有内边距；
+>> 行内元素的边框应用于内容区，内边距和边框；
+>> 对于父元素，也可以设置inline-height的值，但是如果里面没有子元素的话，这是了也没有任何效果。当你设置了父元素inline-height的值，而且里面又有内容的时候，这个值会应用到各文本中的所有内容；    
+
+#### 2) 行内非替换元素
+>> 内容区高度可以大于行内框的高度，这种情况形成的条件是：vertical-align的值为top，inline-height是继承过来的，内容区的font-size比从父元素继承过来的inline-height要大；
+>> 以上这种情况font-size比inline-height，就很容易产生文本的重叠。要解决这个问题，最好inline-height使用关于font-size的函数，比如采用单位em，1em的巧妙使用，或者在父元素那里设置inline-height的缩放因子(注意缩放因子的参考是本元素的font-size)为1，然后子元素继承。这两种方法本质上是一样的;
+>>>>>> ![图5-6 文本重叠](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-6%20%E6%96%87%E6%9C%AC%E9%87%8D%E5%8F%A0.png?raw=true)
+>> 当然了还有其他方法，比如一开始设置inline-height原始值是一个比较大的值，或者设置一个比较大的缩放因子，又或者增加子元素的属性，比如利用短语元素span设置内边框
+>> vertical-align会改变内容区和行内框的位置（在基线附近偏移），从而改变整行的行框。
+>>>>>> ![图5-5 vertical-align的值](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-5%20vertical-align%E7%9A%84%E5%80%BC.png?raw=true)     
+>> 外边距，外边框，内边距不影响行高（也就是上下内外边距和边界，因为只有inline-height才会影响 ），但是会影响左右跟别的元素的距离（也就是左右内外边距和边界）    
+#### 3) 行内替换元素
+
+
+
+
  
  
  
