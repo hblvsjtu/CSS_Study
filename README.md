@@ -531,7 +531,6 @@
 >> -|-|-|-|-
 >> width|auto|块级元素和替换元素|无|相对于包含块的宽度
 >> height|auto|块级元素和替换元素|无|相对于包含块的宽度
->> height|auto|块级元素和替换元素|无|相对于包含块的宽度
 >> margin|未定义|所有元素|无|相对于包含块的宽度
 >> margin-four|0|所有元素|无|相对于包含块的宽度
 >> border-style|对简写属性没有定义|所有元素|无|见各个属性
@@ -552,7 +551,7 @@
 
 <h3 id='6.3'>6.3 margin</h3>			
 
-#### 1) margin  
+#### 1) margin		  
 >> 增加元素延伸空间的方法有三种，增加padding，增加margin或者同时增加padding和margin；
 >> 背景最多延伸到元素的padding；
 >> margin的尺寸可以同时定义上右下左TRBL（顺时针方向）中间用空格隔开；
@@ -560,13 +559,15 @@
 >> margin百分数的设定是以父元素width为参考的;
 >> 但是应该避免一种死循环就是，margin采用百分数的时候，margin-top和margin-bottom也会采用百分数，这时候元素外边框增加了，父元素的高度也被迫增加，由于父元素的高度增加，margin-top和margin-bottom也会增加，从而产生死循环；
 
-<h3 id='6.4'>6.4 border和padding</h3>
+<h3 id='6.4'>6.4 border和padding</h3>		
+
 #### 1) border  
 >> border位于元素外边距内，有三个属性可以修改：粗细（默认medium，2px），样式（默认none）和颜色（默认黑色，可以继承）；
 >> 要使用border，就必须先声明样式，否则就是默认值none，none的话其他的粗细和颜色就没有意义了；
 >> CSS规定背景可以应用到外边界之外，CSS2规定背景可以应用到内边距及其之内，CSS2规定背景可以应用到边框及其之内，
 >> 样式（必须要声明，否则就是默认值none，none的话其他的粗细和颜色就没有意义了），粗细，和颜色同样可以同时定义上右下左TRBL（顺时针方向）中间用空格隔开；
->> 当然了，也有简便大的写法——值复制模式：
+>> 当然了，也有简便大的写法——值复制模式：	
+
 >>>>>> ![图6-1 border-style](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE6-1%20border-style.png?raw=true)		
 >> 边界的颜色也可以是透明的transparent
 #### 2) padding  
