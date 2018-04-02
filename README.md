@@ -32,6 +32,14 @@
 ### [5.4 行布局](#5.4)
 ## [六、内边框、边距和边框](#6)
 ### [6.1 基本元素框](#6.1)
+### [6.2 width和height](#6.2)
+### [6.3 margin](#6.3)
+### [6.4 border和padding](#6.4)
+## [七、颜色和背景](#7)
+### [7.1 颜色](#7.1)
+### [7.2 width和height](#7.2)
+### [7.3 margin](#7.3)
+### [7.4 border和padding](#7.4)
 ------  
 
     
@@ -455,6 +463,7 @@
 >>>>>> ![图5-5 vertical-align的值](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-5%20vertical-align%E7%9A%84%E5%80%BC.png?raw=true)     
 >> 外边距，边框，内边距不影响行高（也就是上下内外边距和边界，因为只有inline-height才会影响 ），但是会影响左右跟别的元素的距离（也就是左右内外边距和边界）
 >> 外边距，边框，内边距虽然不影响行高和边界，但是如果给元素添加背景色（边框+内边距）的话，由于后面的元素会覆盖前面的元素，这也会产生遮盖。
+>> 对于普通的行内文本而言，影响行高的只有inline-height，font-size和vertical-align；
 #### 3) 行内替换元素
 >> 用替换元素整体（包括内容，外边距，边框和内边距）来定义行内替换元素的行内框；
 >> 负外边距会使替换元素的行内框小于正常的大小。负外边框是使行内替换元素挤入其他行的唯一办法。
@@ -468,19 +477,19 @@
 > - 比较使用的一种技巧是利用角色的改变，把无序列表从纵向改成横向，如：
     
     <head>
-			<title>form表单</title>
-				<link rel="stylesheet" type="text/css" href="style.css"/>
-				<style>
-					ul li{
-						display:inline;
-						padding:0 0.33em;
-						border-right: 1px solid;
-					}
-					ul li:first-child{
-						border-left: 1px solid;
-					}
-			</style>
-		</head>   
+	<title>form表单</title>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+		<style>
+			ul li{
+				display:inline;
+				padding:0 0.33em;
+				border-right: 1px solid;
+			}
+			ul li:first-child{
+				border-left: 1px solid;
+			}
+		</style>
+	</head>   
       
     </div>
       <ul>
@@ -498,7 +507,7 @@
 > - 一般来讲，块元素的后代可以是行内元素，但是行内元素的后代不能是块元素。但是有时候我先要块元素作为行内元素使用怎么办？
 > - 可以使用inline-block行内块元素，在行内可以实现块元素的特性，比如在段落文本行框中放入一个行内块元素，那么他的内容块底端就会默认与基线对齐，而且内部没有行分隔符，又可以使用height，width等块元素的特性。
 > - 如果设置width为auto或者选择默认，那么行内块元素的内容框就会紧包着内容，但是也会有一个问题就是，行内块元素不会跨过多个文本行；
->>>>>> ![图5-10 inline-block]https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-10%20inline-block.png?raw=true)   
+>>>>>> ![图5-10 inline-block](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE5-10%20inline-block.png?raw=true)   
 
 >> run in
 > - 使本元素（本元素原来默认是一个块级元素）成为下一个紧接着的元素（这个元素也默认是一个块级元素）的行内元素；   
@@ -520,23 +529,76 @@
 
 >> 名字|初始值|应用于|继承性|百分数
 >> -|-|-|-|-
->> text-indent|0|块级元素|有|相对于包含块的宽度
->> text-align|无|块级元素|有|无
->> line-height|normal|所有元素|有|相对于(父-优先)元素的字体大小
->> vertical-align|baseline|行内元素与表单元格|无|相对于line-height的大小
->> word-spacing|normal|所有元素|有|无
->> letter-spacing|normal|所有元素|有|无
->> text-transform|none|所有元素|有|无
->> text-decration|none|所有元素|无|无
->> white-space|none|所有元素|无|无
+>> width|auto|块级元素和替换元素|无|相对于包含块的宽度
+>> height|auto|块级元素和替换元素|无|相对于包含块的宽度
+>> height|auto|块级元素和替换元素|无|相对于包含块的宽度
+>> margin|未定义|所有元素|无|相对于包含块的宽度
+>> margin-four|0|所有元素|无|相对于包含块的宽度
+>> border-style|对简写属性没有定义|所有元素|无|见各个属性
+>> border-four-style|none|所有元素|无|无
+>> border-width|对简写属性没有定义|所有元素|无|见各个属性
+>> border-four-width|medium|所有元素|无|无
+>> border-color|对简写属性没有定义|所有元素|无|见各个属性
+>> border-four-color|元素的color颜色|所有元素|无|无
+>> border|跟据单个属性|所有元素|无|无
+>> padding|对简写属性没有定义|所有元素|无|相对于包含块的宽度
+>> padding-four|0|所有元素|无|相对于包含块的宽度
 
-#### 1) 文本缩进  
-> - 
+<h3 id='6.2'>6.2 width和height</h3>		
+
+#### 1) width和height  
+>> width定义为左内边界到右内边界的距离，height定义为上内边界到下内边界的距离；
+>> width和height不能用于行内非替换替换，那么问题就来了，这也是不是说就可以用在行内替换元素和块元素呢？
+
+<h3 id='6.3'>6.3 margin</h3>			
+
+#### 1) margin  
+>> 增加元素延伸空间的方法有三种，增加padding，增加margin或者同时增加padding和margin；
+>> 背景最多延伸到元素的padding；
+>> margin的尺寸可以同时定义上右下左TRBL（顺时针方向）中间用空格隔开；
+>> 当然了，也有简便大的写法——值复制模式：如果缺左外边距的值，则使用右外边距的值；如果缺少下外边距的值，则使用上外边距的值；如果缺少右外边距的值，则使用上外边距的值；
+>> margin百分数的设定是以父元素width为参考的;
+>> 但是应该避免一种死循环就是，margin采用百分数的时候，margin-top和margin-bottom也会采用百分数，这时候元素外边框增加了，父元素的高度也被迫增加，由于父元素的高度增加，margin-top和margin-bottom也会增加，从而产生死循环；
+
+<h3 id='6.4'>6.4 border和padding</h3>
+#### 1) border  
+>> border位于元素外边距内，有三个属性可以修改：粗细（默认medium，2px），样式（默认none）和颜色（默认黑色，可以继承）；
+>> 要使用border，就必须先声明样式，否则就是默认值none，none的话其他的粗细和颜色就没有意义了；
+>> CSS规定背景可以应用到外边界之外，CSS2规定背景可以应用到内边距及其之内，CSS2规定背景可以应用到边框及其之内，
+>> 样式（必须要声明，否则就是默认值none，none的话其他的粗细和颜色就没有意义了），粗细，和颜色同样可以同时定义上右下左TRBL（顺时针方向）中间用空格隔开；
+>> 当然了，也有简便大的写法——值复制模式：
+>>>>>> ![图6-1 border-style](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE6-1%20border-style.png?raw=true)		
+>> 边界的颜色也可以是透明的transparent
+#### 2) padding  
+>> 同理，没什么好讲的；		
+          
+------  
+
+<h2 id='7'> 七、颜色和背景 </h2>
+<h3 id='7.1'>7.1 颜色</h3>    
+
+>> 名字|初始值|应用于|继承性|百分数
+>> -|-|-|-|-
+>> width|auto|块级元素和替换元素|无|相对于包含块的宽度
+>> height|auto|块级元素和替换元素|无|相对于包含块的宽度
+>> height|auto|块级元素和替换元素|无|相对于包含块的宽度
+>> margin|未定义|所有元素|无|相对于包含块的宽度
+>> margin-four|0|所有元素|无|相对于包含块的宽度
+>> border-style|对简写属性没有定义|所有元素|无|见各个属性
+>> border-four-style|none|所有元素|无|无
+>> border-width|对简写属性没有定义|所有元素|无|见各个属性
+>> border-four-width|medium|所有元素|无|无
+>> border-color|对简写属性没有定义|所有元素|无|见各个属性
+>> border-four-color|元素的color颜色|所有元素|无|无
+>> border|跟据单个属性|所有元素|无|无
+>> padding|对简写属性没有定义|所有元素|无|相对于包含块的宽度
+>> padding-four|0|所有元素|无|相对于包含块的宽度
+
+<h3 id='6.2'>6.2 width和height</h3>		
+
+#### 1) width和height  
+>> 
         
-        
-
-
-        
         
 
 
