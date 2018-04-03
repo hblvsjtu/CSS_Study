@@ -36,10 +36,10 @@
 ### [6.3 margin](#6.3)
 ### [6.4 border和padding](#6.4)
 ## [七、颜色和背景](#7)
-### [7.1 颜色](#7.1)
-### [7.2 width和height](#7.2)
-### [7.3 margin](#7.3)
-### [7.4 border和padding](#7.4)
+### [7.1 浮动和定位](#7.1)
+## [八、浮动和定位](#8)
+### [8.1 浮动](#8.1)
+### [8.2 定位](#8.2)
 ------  
 
     
@@ -575,30 +575,105 @@
 ------  
 
 <h2 id='7'> 七、颜色和背景 </h2>
-<h3 id='7.1'>7.1 颜色</h3>    
 
 >> 名字|初始值|应用于|继承性|百分数
 >> -|-|-|-|-
->> width|auto|块级元素和替换元素|无|相对于包含块的宽度
->> height|auto|块级元素和替换元素|无|相对于包含块的宽度
->> height|auto|块级元素和替换元素|无|相对于包含块的宽度
->> margin|未定义|所有元素|无|相对于包含块的宽度
->> margin-four|0|所有元素|无|相对于包含块的宽度
->> border-style|对简写属性没有定义|所有元素|无|见各个属性
->> border-four-style|none|所有元素|无|无
->> border-width|对简写属性没有定义|所有元素|无|见各个属性
->> border-four-width|medium|所有元素|无|无
->> border-color|对简写属性没有定义|所有元素|无|见各个属性
->> border-four-color|元素的color颜色|所有元素|无|无
->> border|跟据单个属性|所有元素|无|无
->> padding|对简写属性没有定义|所有元素|无|相对于包含块的宽度
->> padding-four|0|所有元素|无|相对于包含块的宽度
+>> color|用户代理的值|所有元素|有|无
+>> background-color|transparent|所有元素|无|无
+>> background-image|none|所有元素|无|无
+>> background-repeat|repeat|所有元素|无|无
+>> background-position|0% 0%|块级元素和替换元素|无|相对于元素和原图像上相应的点
+>> background-attacment|scroll|所有元素|无|无
+>> background|跟据单个属性|所有元素|无|<background-position>允许的值
+>> background-color|transparent|所有元素|无|
 
-<h3 id='6.2'>6.2 width和height</h3>		
 
-#### 1) width和height  
->> 
-        
+<h3 id='7.1'>7.1 颜色与背景</h3>		
+
+#### 1) 总述 
+> - 颜色分为前景和背景色；
+#### 2) color
+> - 前景包括元素的问版本和元素周围的边框，所以设置元素的颜色有两种方法：第一种是直接设置color，另一种是设置边框的颜色；
+#### 3) background-image
+> - 值为<url> | none |inherit，如：		
+	
+	body{		
+		background-image: url(bg23.gif);		
+	}		
+			
+> - 背景不能被继承，因为子元素也想有自己的个性；
+> - 设置了 background-image后也还可以设置background-color，避免图片无法加载的时候可以显示别的东西，或者有些透明的图片需要跟背景一起才能表现某种效果；
+#### 4) background-image
+> - url();
+#### 5) background-repeat
+> - 可选的值包括repeat，repeat-x，repeat-y, no-repeat, inherit;
+> - 默认的值是repeat；
+#### 6) background-position
+> - 用来给background-image定位用的;
+> - 两个参数，一个是水平方向，另一个是垂直方向，如果只写一个，则默认垂直方向上是50%；
+> - 如果参数是具体的绝对长度，则参考图片和元素框左上角的位置关系
+>>>>>> ![图6-2 background-position](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE6-2%20background-position.png?raw=true) 如：		
+		
+		p{		
+			background-image:url(bg23.gif);		
+			background-position:left center; 		
+			background-repeat:no-repeat;		
+			background-color:white;		
+		}		
+		
+#### 7) background-attachment
+> - fix 背景图片相对于可视区是固定的，且不受滚动的影响；
+> - scroll 背景图片相对于可视区不是固定的，受滚动的影响；
+#### 8) background
+> - 这个没什么好讲的，原理大家都懂；
+> - 值得注意的是background-position属性的出现必须是成对的；		
+
+------  
+
+    
+<h2 id='8'> 八、浮动和定位 </h2>		
+		
+>> 名字|初始值|应用于|继承性|百分数
+>> -|-|-|-|-
+>> float|none|所有元素|无|无
+>> clear|none|块级元素|无|无
+>> position|static|所有元素|无|无
+>> top/right/bottom/left|auto|定位元素|无|包含块的高度和宽度
+>> min-width/min-height|0|除了非替换行内元素和表元素以外的所有元素|无|包含块的宽度
+>> max-width/max-height|none|除了非替换行内元素和表元素以外的所有元素|无|包含块的高度
+>> overflow|visible|块级元素和替换元素|无|无
+>> clip|auto|绝对定位元素|无|
+>> z-index|auto|定位元素|无|
+
+<h3 id='8.1'>8.1 浮动</h3>  
+
+#### 1) float  
+>>  值有left(最左)|right(最右)|none|inherit
+>>  四周环绕包围；
+>>  外边框不会与其他元素合并；
+>>  前提：必须要提供width这个参数，否则宽度只有默认的一个字符，特别需要注意的是行内非替换元素，如普通文本；
+>>  浮动的详细内幕：浮动元素的包含块是其最近块级父元素，浮动元素会生成一个块级框
+> - 向左或向右浮动；
+> - 避免浮动产生重叠；
+> - 不同于气球，浮动元素不能一直浮动；
+> - 使浮动元素一直在其之前浮动元素的下面；
+> - 使浮动元素在其上下文内；
+> - 如果没有足够的空间，浮动元素会被寄到一个新的行上；
+> - 满足其他约束条件的前提下，浮动尽可能高；
+> - 向左或者向右尽可能得远；
+>>  虽然不准浮动元素的外边框覆盖父元素内的行内框和块框，但是如果存在浮动元素存在负边距的时候，就出现问题了：
+> - 行内框与一个浮动元素重叠的时候，其边框，背景和内容都在浮动元素“之上”；
+> - 块框与一个浮动元素重叠的时候，其边框和背景在该浮动元素“之下”，而内容在浮动元素“之上”显示；
+>>  存在两种情况浮动元素会溢出父元素内边界：
+> - 浮动元素存在负边距；
+> - 浮动元素宽度或者高度比父元素大；
+
+<h3 id='8.2'>8.2 定位</h3>  
+
+#### 1) 替换元素与非替换元素  
+> - 
+
+
         
 
 
