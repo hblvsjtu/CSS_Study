@@ -2,8 +2,9 @@
   
   
 ### 作者：冰红茶  
-### 参考书籍：《CSS权威指南》
-------  
+### 参考书籍：《CSS权威指南》 版本2.1		
+
+------  
 
    CSS，Cascade Style Sheet层叠样式表，负责html页面的美化工作。其实当初在学javascript权威指南第二部分的时候，就觉得应该补一下html和css权威指南方面的知识，才能更好地进行第二部分的学习^_ ^
   
@@ -42,6 +43,9 @@
 ### [8.2 定位](#8.2)
 ### [8.3 z轴上的位置z-index](#8.3)
 ### [8.4 固定定位和相对定位](#8.4)
+## [九、表布局](#9)
+### [9.1 表格式化](#9.1)
+### [9.2 表大小](#9.2)
 ------  
 
     
@@ -751,11 +755,62 @@ th和height 
 > - 固定元素的包含块是视窗，元素会完全从文档流中去除；
 #### 2) 相对定位relative
 > - 对于非根元素，position的值为static或者relative，其包含块就是离它最近的块级框，表单元格或者行内祖先框的内容边界；那么，他自己也会变成一个包含块（无论它本身是否是一个块状元素或者是一个行内元素），同时他会在原来的位置生成一个包含块（这个块不会消失，并且会继续影响其他非定位元素）作为参考；
->>>>>> ![图7-2 position_relative](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE7-2%20position_relative.png?raw=true)	
+>>>>>> ![图7-2 position_relative](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE7-2%20position_relative.png?raw=true)		
+
+------  
+
+    
+<h2 id='9'>九、表布局 </h2>		
+		
+>> 名字|初始值|应用于|继承性|百分数
+>> -|-|-|-|-
+>> display|inline|所有元素|无|无
+>> caption-side|top|display值为table-caption的元素|无|无
+>> border-collapse|separate|display值为table或者inline-table的元素|有|无
+>> border-spacing|0|display值为table-cell的元素|有|无
+>> table-layout|auto|display值为table或者inline-table的元素|有|无
 
 
- 
- 
+<h3 id='9.1'>9.1 表格式化</h3>  
+
+#### 1) display表显式值  
+> - table 制定一个元素定义一个块级表；
+> - inline-table 制定一个元素定义一个内行级表；
+> - table-row 一行  table-row-group 一组行 ；
+> - table-column 一列  table-column 一组列 ；
+> - cell 单个单元格；
+> - table-caption 单个总标题；
+>>>>>> ![图8-1 display](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE8-1%20display.png?raw=true)	
+
+>>>>>> ![图8-2 table常用的标签](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE8-2%20table%E5%B8%B8%E7%94%A8%E7%9A%84%E6%A0%87%E7%AD%BE.png?raw=true)		
+
+#### 2) border-collapse表单元格边框
+> - collapse | separate | inherit
+> - collapse 合并单元格边框用的，要不然每个单元格都有自己的边框，看起来连接的部分就有两条线，含难看（分隔边框模型）；
+#### 3) border-spacing边框间距
+> - 可以指定两个值，分别是水平方向的间距和垂直方向的间距；
+> - 当然了，你用一个值也可以，就代表水平方向和垂直方向的间距都是同一个值；
+> - 要注意的是，这要应用与表元素，而不是单个单元格或者行或者列元素；
+#### 4) caption-side
+> - top | bottom
+> - 放标题的位置；
+#### 5) 分隔单元格边框模型
+
+#### 6) 合并边框模型
+>>>>>> ![图8-3 合并边框模型](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE8-3%20%E5%90%88%E5%B9%B6%E8%BE%B9%E6%A1%86%E6%A8%A1%E5%9E%8B.png?raw=true)
+>>>>>> ![图8-4 布局公式](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE8-4%20%E5%B8%83%E5%B1%80%E5%85%AC%E5%BC%8F.png?raw=true)
+> - 边框合并，不是重合，而是只画一个，这要看那个占上风。要看那种边框类型border-style占上风，优先级最高；
+> - hidden > double > solid > dashed > dotted > ridge > outset > groove > inset > none;
+> - 如果边框的样式一样，只是颜色不同，颜色的优先级跟据元素类型来，cell > row > row group > colume > colume group > table ;
+> - 如果连以上都不能分辨的话，只能优先考虑最上最左边框的颜色；
+
+<h3 id='9.2'>9.2 表大小</h3>  
+
+#### 1) table-layout表布局  
+> - auto | fixed | inherit
+> - auto自动布局，这个布局比较复杂
+> - fixed固定布局
+> - 对齐 vertical-align top | middle | bottom |baseline
  
  
  
