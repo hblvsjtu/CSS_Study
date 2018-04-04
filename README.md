@@ -40,6 +40,8 @@
 ## [八、浮动和定位](#8)
 ### [8.1 浮动](#8.1)
 ### [8.2 定位](#8.2)
+### [8.3 z轴上的位置z-index](#8.3)
+### [8.4 固定定位和相对定位](#8.4)
 ------  
 
     
@@ -707,27 +709,49 @@
 		left + margin-left + border-left + padding-left + 子元素width +  margin-right + border-right + padding-right + right		
 				
 				
-#### 3) 定位元素的width和height  
+#### 3) 定位元素的wid
+th和height  
 > - 定位元素的width和height在定位过程中可以不需要显式设置，默认是auto，然后就根据偏移属性进行设置，设置了偏移后，width和height就废掉了；
-#### 4) 注意：
-> - 无法使用margin-left：auto；margin-right：auto；的方式进行左右居中，最好是设置偏移量left和right等于相同的百分数，width设置为auto，从而确定定位元素的外边界的位置；
-> - 块级元素
-#### 4) 高度的限制  
+#### 4) 绝对定位元素的水平居中和垂直居中：
+> - 在绝对定位元素中，如果left或right为auto，left或right就会相应的变成0，定位就会变成静态定位（所谓的静态定位，其实就是表现出按照没有绝对定位之前的位置摆放，但是其属性是绝对定位不变），或者绝对定位元素的width不确定，则margin-left和margin-right的auto会变成0，如果水平方向受限的话，margin-right会变成自适应，但是margin-left绝对会变成0。如果left或者right都不是auto，同时绝对定位元素有确定的width，margin-left和margin-right都是auto的话，margin-left = margin-right。这可以用来水平居中；
+> - 在绝对定位元素中，如果top或bottom为auto，top或bottom就会相应的变成0，定位就会变成静态定位（所谓的静态定位，其实就是表现出按照没有绝对定位之前的位置摆放，但是其属性是绝对定位不变），或者绝对定位元素的height不确定，则margin-top和margin-bottom的auto会变成0，如果垂直方向受限的话，margin-bottom会变成自适应，但是margin-top绝对会变成0。如果top和bottom都不是auto，同时绝对定位元素的height确定，margin-top和margin-bottom都是auto的话则，margin-top = margin-bottom。这可以用来垂直居中；
+#### 5) 注意：
+> - 在绝对定位元素中，其定位作用的主要是偏移量，所以如果需要居中的话，包括水平也好，垂直的也好，也最好使用偏移量。而外边距只能用作辅助，所以无法使用margin-left：auto；margin-right：auto；的方式进行左右居中，最好是设置偏移量left和right等于相同的百分数，width设置为auto，从而确定定位元素的外边界的位置；
+> - 在绝对定位元素中，子元素无法影响包含块的高度和宽度；
+> - 在绝对定位元素中，当上右下左四个偏移量都设定好之后，可以使用margin：auto进行水平和垂直居中，值得赞许的是，连垂直居中都可以欸，要知道在正常文本流的垂直居中是不可以使用margin-top：auto和margin-bottom：auto进行的；
+> - 在绝对定位元素中，垂直方向过度受限的时候，会忽略bottom的值；水平方向过度受限的时候，会忽略right的值；
+#### 6) 高度的限制  
 > - min or max 对高度的限制；
-#### 5) overflow-内容溢出或者裁剪  
+#### 7) overflow-内容溢出或者裁剪  
 > - visible | hidden | scroll | auto | inherit
 > - 其实就是当子元素溢出包含块的时候告诉用户代理如何处理的问题：
 > - visible是默认值，hidden就是隐藏掉溢出的部分，scroll就是加一个滑动条，auto
-#### 5) clip-内容裁剪  
+#### 8) clip-内容裁剪  
 > - rect(top, right, bottom, left) | auto | inherit
 > - rect的语法很有特点，就是后面加的四个值都是用逗号隔开，但是在CSS2.0的规范中说有例子是不加逗号的，实际上加不加逗号都不要紧，但是还是建议加一下。因为这样更加容易读，这也是CSS2.1推荐的做法；
 > - rect四个值的参考是元素左上角的点；
 > - rect应用的元素是绝对定位元素；
 > - 但是绝对定位元素有一个缺点是不好确定宽度和长度，这就需要显式定义width和height；
-#### 6) visibility-内容裁剪
+#### 8) visibility-可见性
 > - visible | hidden | collapse | inherit
-> - 
 
+<h3 id='8.3'>8.3 z轴上的位置z-index</h3> 		
+
+#### 1) z-index
+>>  auto | <integer> | inherit；
+> - 应用于定位元素；
+> - 可以改变元素的覆盖顺序，较高的z-index值可以覆盖较低的z-index值；
+> - z-index值可以是负数，那就被覆盖的更底下了； 
+> - z-index值是分维数的，； 同一级（同一个父元素）的元素的z-index互相比较，即先比较父元素最早的那个z-index值，最后再比较自己的z-index值；
+> - z-index值如果是负数，跟据CSS2.1，该元素不能放在父元素的也不能背景之下；	
+		
+<h3 id='8.4'>8.4 固定定位和相对定位</h3> 		
+
+#### 1) 固定定位fixed
+> - 固定元素的包含块是视窗，元素会完全从文档流中去除；
+#### 2) 相对定位relative
+> - 对于非根元素，position的值为static或者relative，其包含块就是离它最近的块级框，表单元格或者行内祖先框的内容边界；那么，他自己也会变成一个包含块（无论它本身是否是一个块状元素或者是一个行内元素），同时他会在原来的位置生成一个包含块（这个块不会消失，并且会继续影响其他非定位元素）作为参考；
+>>>>>> ![图7-2 position_relative](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE7-2%20position_relative.png?raw=true)	
 
 
  
