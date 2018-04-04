@@ -122,7 +122,11 @@
 > - 伪元素选择器必须放在选择器的最后面
 >>>>>> ![图1-2 链接伪类](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE1-2%20%E9%93%BE%E6%8E%A5%E4%BC%AA%E7%B1%BB.png?raw=true) 
 >>>>>> ![图1-3 动态伪类a](https://raw.githubusercontent.com/hblvsjtu/CSS_Study/6da97dc10d2248db251897494712f8a29458d805/picture/%E5%9B%BE1-2%20%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BBa.png) 
->>>>>> ![图1-3 动态伪类b](https://raw.githubusercontent.com/hblvsjtu/CSS_Study/6da97dc10d2248db251897494712f8a29458d805/picture/%E5%9B%BE1-2%20%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BBb.png)   
+>>>>>> ![图1-3 动态伪类b](https://raw.githubusercontent.com/hblvsjtu/CSS_Study/6da97dc10d2248db251897494712f8a29458d805/picture/%E5%9B%BE1-2%20%E5%8A%A8%E6%80%81%E4%BC%AA%E7%B1%BBb.png) 		
+
+#### 9) 伪元素选择器
+> - 跟伪类差不多，只是冒号改成了双冒号“：：”；		
+
 
 <h3 id='1.3'>1.3 选择器规则</h3>  
 
