@@ -803,6 +803,9 @@ th和height 
 > - hidden > double > solid > dashed > dotted > ridge > outset > groove > inset > none;
 > - 如果边框的样式一样，只是颜色不同，颜色的优先级跟据元素类型来，cell > row > row group > colume > colume group > table ;
 > - 如果连以上都不能分辨的话，只能优先考虑最上最左边框的颜色；
+#### 7) 表层
+> - CSS定义了6个不同的层；
+>>>>>> ![图8-5 表层.png](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE8-5%20%E8%A1%A8%E5%B1%82.png?raw=true)
 
 <h3 id='9.2'>9.2 表大小</h3>  
 
