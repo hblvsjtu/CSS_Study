@@ -50,8 +50,8 @@
 > - 替换元素即是那种用于填充图像，影片和音乐；
 > - 非替换元素即是那种由用户代理（主要是浏览器）显示的内容，比如文字； 
 #### 2) 元素显示角色  
-> - 块级元素（block） 元素框独立，在元素框前后生成分隔符
-> - 行内元素（inline） 元素框非独立  
+> - 块级元素（block） 元素框独立，在元素框前后生成分隔符，大小等于1em；
+> - 行内元素（inline） 元素框非独立  
 >>>>>> ![图1-3 一些概念](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE1-3%20%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5.png?raw=true)    
 
 
@@ -642,8 +642,9 @@
 >> min-width/min-height|0|除了非替换行内元素和表元素以外的所有元素|无|包含块的宽度
 >> max-width/max-height|none|除了非替换行内元素和表元素以外的所有元素|无|包含块的高度
 >> overflow|visible|块级元素和替换元素|无|无
->> clip|auto|绝对定位元素|无|
->> z-index|auto|定位元素|无|
+>> clip|auto|绝对定位元素|无|无
+>> visibility|visable|所有元素|有|无
+>> z-index|auto|定位元素|无|无
 
 <h3 id='8.1'>8.1 浮动</h3>  
 
@@ -682,7 +683,13 @@
 >>  static，一切正常，块级元素生成矩形框，行内元素生成一个或者多个行框；
 >>>>>> ![图7-1 定位position](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE7-1%20%E5%AE%9A%E4%BD%8Dposition.png?raw=true)		
 		
->>  什么叫定位元素？position的值不是static；
+>>  什么叫定位元素？position的值不是static，元素绝对定位的时候，会从文档流中完全删除，然后相对其包含块定位，其边界跟据偏移放置。通常在一开始的时候，没有显式设定的绝对定位元素，如果需要绝对定位的话，只能找根元素html。这就会非常的awkward。所以，为了避免这些比较尴尬的场景，需要设定参考定位元素，这就是relative了，如果不对它进行任何值的设置，他的特性其实跟static差不多，但是它可以被绝对定位元素用来作为包含块。这时候绝对定位元素就不需要被迫采用根元素html作为参考了：		
+		
+		p{		
+			position:relative;		
+		}		
+				
+				
 >>  包含块的定义
 > - 根元素的包含块是有用户代理建立的，在HTML中，根元素就是html元素
 > - 对于非根元素，position的值为static或者relative，其包含块就是离它最近的块级框，表单元格或者行内祖先框的内容边界；
@@ -690,21 +697,36 @@
 > - 对于非根元素，position的值为fixed，则包含块就是视图区；
 > - 如果没有祖先，则元素的包含块定义为初始包含块；
 #### 2) 偏移属性offset
-> - top | right | down | left 描述的是定位元素（上右下左）外边距边界距离包含块（上右下左）边界的距离；
+> - top | right | bottom | left 描述的是定位元素（上右下左）外边距边界距离包含块（上右下左）边界的距离；
 > - 正值会导致定位元素往包含块中心偏移，负值则往外偏移，有可能会移除包含块之外；
 > - 偏移过程中外边距，边框，内边距和内容都会在定位过程中移动；
+> - 自动边偏移，假如top | right | left的任意一个值是auto（除开bottom），那么出现一种神奇的现象是，该元素就变成了类似relative，不要求父元素必须是定位元素，普通的正常流元素也可以，然后在他原来没有脱离文档流之前的位置，然后对齐。0的优先级比auto高，right的优先级比width低，left的优先级比width高，总体来讲，过度受限就会忽略right的值；
+> - 非替换元素的自动边偏移，当left,width,right都设置为auto的时候，width为容纳文本的长度，然后当left设置为auto的时候，就relative了，左边靠拢，然后加上本身的width长度，如果右边也是auto的话，只能忽略掉了。因为需要符合一下公式，整体的效果就是往左对齐，当然了，如果你需要居中的话，可以设置左边距和右边距为auto，同时需要：		
+		
+		包含块width = 		
+		left + margin-left + border-left + padding-left + 子元素width +  margin-right + border-right + padding-right + right		
+				
+				
 #### 3) 定位元素的width和height  
 > - 定位元素的width和height在定位过程中可以不需要显式设置，默认是auto，然后就根据偏移属性进行设置，设置了偏移后，width和height就废掉了；
+#### 4) 注意：
+> - 无法使用margin-left：auto；margin-right：auto；的方式进行左右居中，最好是设置偏移量left和right等于相同的百分数，width设置为auto，从而确定定位元素的外边界的位置；
+> - 块级元素
 #### 4) 高度的限制  
 > - min or max 对高度的限制；
-#### 5) 内容溢出或者裁剪  
+#### 5) overflow-内容溢出或者裁剪  
 > - visible | hidden | scroll | auto | inherit
 > - 其实就是当子元素溢出包含块的时候告诉用户代理如何处理的问题：
 > - visible是默认值，hidden就是隐藏掉溢出的部分，scroll就是加一个滑动条，auto
-
-
-
-        
+#### 5) clip-内容裁剪  
+> - rect(top, right, bottom, left) | auto | inherit
+> - rect的语法很有特点，就是后面加的四个值都是用逗号隔开，但是在CSS2.0的规范中说有例子是不加逗号的，实际上加不加逗号都不要紧，但是还是建议加一下。因为这样更加容易读，这也是CSS2.1推荐的做法；
+> - rect四个值的参考是元素左上角的点；
+> - rect应用的元素是绝对定位元素；
+> - 但是绝对定位元素有一个缺点是不好确定宽度和长度，这就需要显式定义width和height；
+#### 6) visibility-内容裁剪
+> - visible | hidden | collapse | inherit
+> - 
 
 
 
