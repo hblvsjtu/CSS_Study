@@ -48,6 +48,7 @@
 ## [九、表布局](#9)
 ### [9.1 表格式化](#9.1)
 ### [9.2 表大小](#9.2)
+### [9.3 计数器](#9.3)
 ## [十、简明参考](#10)
 ### [10.1 CSS选择器简明参考](#10.1)
 ### [10.2 属性简明简明参考](#10.2)
@@ -865,6 +866,15 @@ th和height 
 > - auto自动布局，这个布局比较复杂
 > - fixed固定布局
 > - 对齐 vertical-align top | middle | bottom |baseline		
+
+<h3 id='9.3'>9.3 计数器</h3>
+
+#### 1) 计数器
+>>>>>> ![图9-8 简单计数器](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-8%20%E7%AE%80%E5%8D%95%E8%AE%A1%E6%95%B0%E5%99%A8.png?raw=true) 		
+
+#### 2) 嵌套计数器
+>>>>>> ![图9-9 嵌套计数器a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-9%20%E5%B5%8C%E5%A5%97%E8%AE%A1%E6%95%B0%E5%99%A8a.png?raw=true)
+>>>>>> ![图9-9 嵌套计数器a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-9%20%E5%B5%8C%E5%A5%97%E8%AE%A1%E6%95%B0%E5%99%A8b.png?raw=true)
 
 ------  
 
