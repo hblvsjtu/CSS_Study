@@ -17,6 +17,7 @@
 ### [1.4 继承](#1.4)
 ### [1.5 层叠](#1.5)
 ### [1.6 导入样式表](#1.6)
+### [1.7 浏览器特定厂商的前缀](#1.7)
 ## [二、值，颜色和单位](#2)
 ### [2.1 值](#2.1)
 ### [2.2 颜色](#2.2) 
@@ -47,6 +48,9 @@
 ## [九、表布局](#9)
 ### [9.1 表格式化](#9.1)
 ### [9.2 表大小](#9.2)
+## [十、简明参考](#10)
+### [10.1 CSS选择器简明参考](#10.1)
+### [10.2 属性简明简明参考](#10.2)
 ------  
 
     
@@ -192,9 +196,17 @@
 			border: dotted 1px block;		
 		}		
 		
-		
-------  		
-		
+<h3 id='1.7'>1.7 浏览器特定厂商前缀</h3> 		
+
+>> 浏览器|厂商前缀 
+>> -|-
+>> Chrome|-webkit-
+>> Opera|-o-
+>> Firefox|-moz-
+>> Internet Explorer|-ms-		
+
+------		
+
 		
 <h2 id='2'> 二、值，颜色和单位 </h2>
 <h3 id='2.1'>2.1 值</h3>     
@@ -852,12 +864,45 @@ th和height 
 > - auto | fixed | inherit
 > - auto自动布局，这个布局比较复杂
 > - fixed固定布局
-> - 对齐 vertical-align top | middle | bottom |baseline
- 
- 
- 
+> - 对齐 vertical-align top | middle | bottom |baseline		
+
+------  
+
+    
+<h2 id='1'> 十、简明参考 </h2>
+<h3 id='10.1'>10.1 CSS选择器简明参考</h3>		
+
+>> *（引自《HTML5权威指南》）*
+
+#### 1) CSS选择器简明参考  
+>>>>>> ![图9-1 CSS选择器简明参考a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-1%20CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83a.png?raw=true)		
+>>>>>> ![图9-1 CSS选择器简明参考b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-1%20CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83b.png?raw=true)		
 
 
+<h3 id='10.2'>10.2 属性简明简明参考</h3>  
+
+#### 1) 边框和背景属性  
+>>>>>> ![图9-2 边框与属性简明参考a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-2%20%E8%BE%B9%E6%A1%86%E4%B8%8E%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83a.png?raw=true)		
+>>>>>> ![图9-2 边框与属性简明参考b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-2%20%E8%BE%B9%E6%A1%86%E4%B8%8E%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83b.png?raw=true)		
+>>>>>> ![图9-2 边框与属性简明参考c](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-2%20%E8%BE%B9%E6%A1%86%E4%B8%8E%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83c.png?raw=true)
+>>>>>> ![图9-2 边框与属性简明参考d](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-2%20%E8%BE%B9%E6%A1%86%E4%B8%8E%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83d.png?raw=true)
+
+#### 2) 基本的盒子属性
+>>>>>> ![图9-3 盒子属性简明参考a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-3%20%E7%9B%92%E5%AD%90%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83a.png?raw=true)		
+>>>>>> ![图9-3 盒子属性简明参考b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-3%20%E7%9B%92%E5%AD%90%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83b.png?raw=true)			
+
+#### 3) 布局属性
+>>>>>> ![图9-4 布局属性简明参考](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-4%20%E5%B8%83%E5%B1%80%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83.png?raw=true)		
+
+#### 4) 文本属性
+>>>>>> ![图9-5 文本属性简明参考](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-5%20%E6%96%87%E6%9C%AC%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83.png?raw=true)		 
+
+#### 5) 过渡，动画和变换属性
+>>>>>> ![图9-6 过渡，动画和变换属性简明参考a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-6%20%E8%BF%87%E6%B8%A1%EF%BC%8C%E5%8A%A8%E7%94%BB%E5%92%8C%E5%8F%98%E6%8D%A2%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83a.png?raw=true)		
+>>>>>> ![图9-6 过渡，动画和变换属性简明参考b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-6%20%E8%BF%87%E6%B8%A1%EF%BC%8C%E5%8A%A8%E7%94%BB%E5%92%8C%E5%8F%98%E6%8D%A2%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83b.png?raw=true)			
+
+#### 6) 其他属性
+>>>>>> ![图9-7 其他属性简明参考](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE9-7%20%E5%85%B6%E4%BB%96%E5%B1%9E%E6%80%A7%E7%AE%80%E6%98%8E%E5%8F%82%E8%80%83.png?raw=true)		
 
 
 
