@@ -20,30 +20,13 @@
 ### [3.1 圆角](#3.1)
 ### [3.2 边框](#3.2)
 ### [3.3 背景](#3.3)
-## [四、文本](#4)
+## [四、设置文本样式](#4)
 ### [4.1 文本属性](#4.1)
-### [4.2 字间隔与字符间隔](#4.2)
-### [4.3 其他文本操作](#4.3)
-## [五、基本视觉格式化](#5)
-### [5.1 基本框](#5.1)
-### [5.2 水平格式化](#5.2)
-### [5.3 垂直格式化](#5.3)
-### [5.4 行布局](#5.4)
-## [六、内边框、边距和边框](#6)
-### [6.1 基本元素框](#6.1)
-### [6.2 width和height](#6.2)
-### [6.3 margin](#6.3)
-### [6.4 border和padding](#6.4)
-## [七、颜色和背景](#7)
-### [7.1 浮动和定位](#7.1)
-## [八、浮动和定位](#8)
-### [8.1 浮动](#8.1)
-### [8.2 定位](#8.2)
-### [8.3 z轴上的位置z-index](#8.3)
-### [8.4 固定定位和相对定位](#8.4)
-## [九、表布局](#9)
-### [9.1 表格式化](#9.1)
-### [9.2 表大小](#9.2)
+## [五、过渡，动画和变换](#5)
+### [5.1 使用过渡](#5.1)
+### [5.2 使用动画](#5.2)
+### [5.3 使用变换](#5.3)	
+
 ------  
 
 <h2 id='1'> 一、简明参考 </h2>
@@ -100,11 +83,11 @@
 #### 1) 结构性伪类选择器  
 >> 根元素选择器：root 用于整个文档根元素<html>的选择；		
 >> 子元素选择器
-> - :last-chhild 选择父元素最后一个子元素；
-> - :only-chhild 选择父元素唯一一个子元素；
+> - :last-child 选择父元素最后一个子元素；
+> - :only-child 选择父元素唯一一个子元素；
 > - :only-of-type 选择父元素唯一一个子元素类型；
-> - :nth-chhild(n) 选择父元素第n个子元素；
-> - :nth-last-chhild(n) 选择父元素倒数第n个子元素；
+> - :nth-child(n) 选择父元素第n个子元素；
+> - :nth-last-child(n) 选择父元素倒数第n个子元素；
 > - :nth-of-type 选择父元素定义类型的第n个的全部子元素；
 > - :nth-last-of-type 选择父元素定义类型的倒数第n个的全部子元素；
 >> UI伪类选择器
@@ -183,8 +166,31 @@
 #### 1) transition
 > - 主要用在鼠标悬停：hover伪类元素中变化的细节；
 > - 属性排列的顺序依次是property duration timing-function transition-delay;
+> - transition-direction normal和alternate，前者表示每次重复向前播放，如果可重复播放多次，后者表示先向前播放，然后再向后播放；
 >>>>>> ![图12-1 transition属性](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-1%20transition%E5%B1%9E%E6%80%A7.png?raw=true)		
-> - 过渡属性的值用逗号隔开，这样过渡效果才会同时出现;
+> - 过渡属性的值用逗号隔开，这样过渡效果才会同时出现;		
+		
+		<style>
+			ul li{
+				display:inline;
+				padding:0 0.33em;
+				border-right: 1px solid;
+				transition-delay:0.5s;
+				transition-duration:2s;
+				-webkit-transition-delay:0.3s;
+				-webkit-transition-duration:1.5s;
+			}
+			ul li:first-child{
+				border-left: 1px solid;
+			}
+			li:hover{
+				padding:0 6em;
+				border-right: 2px dashed;
+				transition:border-right,padding 2s ease-in-out 0.5s ;
+				-webkit-transition:border-right,padding 2s ease-in-out 0.5s ; /*Safari and Chrome*/
+			}		
+					
+					
 > - 一般在一开始的时候，浏览器是不会应用过渡样式的，只有当元素样式发生变化之后，才会应用。因此可以利用这个特点进行反向过渡，其实就是加了个延迟时间而已，使得原来返回的时候不会那么突兀;
 > - 还有一点需要注意的是，并不是所有主流浏览器都支持这个特性，比如IE就不支持了，所以要加前缀；
 >>>>>> ![图12-2 transition使用代码b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-2%20transition%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81b.png?raw=true)
@@ -192,14 +198,82 @@
 > - transition-timing-function属性，设定变化的曲率，预设的是四个点控制的三次贝塞尔曲线；
 >>>>>> ![图12-3 transition调速曲线](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-3%20transition%E8%B0%83%E9%80%9F%E6%9B%B2%E7%BA%BF.png?raw=true)		
 
-#### 2) animation动画
+<h3 id='5.2'>5.2 使用动画</h3>  		
+
+#### 1) animation动画
 > - 主要用在鼠标悬停：hover伪类元素中变化的细节；
 > - 简写属性排列的顺序依次是animation-name animation-duration animation-timing-function animation-delay animation-iteration-count;
 >>>>>> ![图12-4 animation属性](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-4%20animation%E5%B1%9E%E6%80%A7.png?raw=true)		
-> - 添加关键帧
->>>>>> ![图12-4 animation属性](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-4%20animation%E5%B1%9E%E6%80%A7.png?raw=true)			
->>>>>> ![图12-4 animation属性](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-4%20animation%E5%B1%9E%E6%80%A7.png?raw=true)	
+> - 添加关键帧@-webkit-keyframe 名字
+> - animation和transition的区别，前者强调过程与控制，后者强调过渡，使用的是四个点控制的三次贝塞尔曲线；
+> - 可以使用animation-play-state来控制动画的启动（playing）和停止（paused）
+> - 当然了，如果你喜欢，可以随时用0%和100%代替from和to；
+> - animation-direction normal和alternate，前者表示每次重复向前播放，如果可重复播放多次，后者表示先向前播放，然后再向后播放；		
+>>>>>> ![图12-5 animation关键帧代码a](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-5%20animation%E5%85%B3%E9%94%AE%E5%B8%A7%E4%BB%A3%E7%A0%81a.png?raw=true)			
+>>>>>> ![图12-5 animation关键帧代码b](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-5%20animation%E5%85%B3%E9%94%AE%E5%B8%A7%E4%BB%A3%E7%A0%81b.png?raw=true)			
 
+> - 又或者使用以下代码		
+		
+		<style>
+			ul li{
+				display:inline;
+				padding:0 0.33em;
+				border-right: 1px solid;
+			}
+			ul li:first-child{
+				border-left: 1px solid;
+			}
+			p:hover{
+				animation:mymove 5s linear 1s infinite;
+				-webkit-animation:mymove 5s linear 1s infinite; /*Safari and Chrome*/
+			}
+			@keyframes mymove{
+				from{
+					border: 1px dotted blue;
+					background-color:green;
+				}
+				30%{
+					border: 2px dotted green;
+					background-color:yellow;
+				}
+				70%{
+					border: 3px dotted yellow;
+					background-color:pink;
+				}
+				to{
+					border: 4px dotted pink;
+					background-color:blue;
+				}
+			}
+
+			@-webkit-keyframes mymove{ /*Safari and Chrome*/
+				from{
+					border: 1px dotted blue;
+					background-color:green;
+				}
+				30%{
+					border: 2px dotted green;
+					background-color:yellow;
+				}
+				70%{
+					border: 3px dotted yellow;
+					background-color:pink;
+				}
+				to{
+					border: 4px dotted pink;
+					background-color:blue;
+				}
+			}
+		</style>
+		
+<h3 id='5.3'>5.3 使用变换</h3>  		
+
+#### 1) transform变换
+> - 主要用来进行变形的包括位置，角度和大小；
+> - 主要属性有两个transform和transform-origin指定变换的起点。
+> - 如果不指定transform-origin的值，则默认在中心；
+>>>>>> ![图12-6 transform属性的值](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-6%20transform%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC.png?raw=true)			
+>>>>>> ![图12-7 transform-origin属性的值](https://github.com/hblvsjtu/CSS_Study/blob/master/picture/%E5%9B%BE12-7%20transform-origin%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC.png?raw=true)		
 
 
 
