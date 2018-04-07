@@ -21,6 +21,7 @@
 ### [2.2 替换元素与非替换元素的区别](#2.2) 
 ### [2.3 content的特性](#2.3)
 ### [2.4 一些技术](#2.4)
+### [2.5 温和的padding](#2.5)
 ## [三、表格元素](#3)
 ### [3.1 表格元素](#3.1)
 ### [3.2 制作不规则表格](#3.2)
@@ -465,6 +466,7 @@
 #### 3) 计数器代码		
 > - 计数器代码：
 		
+		CSS:
 		.reset{
 			padding-left:1em;
 			counter-reset:num;		
@@ -499,6 +501,140 @@
 		<div class="mylist mylistnext">冰红茶3</div>
 		<div class="mylist mylistnext">冰红茶4</div>
 		<div class="mylist mylistnext">冰红茶5</div>
+		</div>		
+		
+		
+<h3 id='2.5'> 2.5 温和的padding</h3>     
+
+#### 1) 定义与作用
+> - padding也称元素的“内部间”；
+> - inline元素的padding既会影响视觉层叠，也会影响外部尺寸，如左右的em串的间距，上下行的层叠(如果给他加个背景颜色的话是可以看到的，或者给它弄个overflow: scroll,你有机会会看到滚动条;)
+> - padding的百分比无论是水平方向还是垂直方向，都是依赖父元素的宽度，我估计这最初的设计是用来避免高度的死循环吧
+> - 可以用来增加按钮或者链接的点击区域，因为有时候在手机等小屏幕的上，1em的高度人的手指点起来不方便，可以给他加一个大的padding，
+> - 代码实例：三道杠		
+		
+		CSS:
+		.sandaogang{
+			display:inline-block;
+			width: 140px;
+			height:2px;
+			padding:10px 0;
+			background-color:black;
+			border-top:2px solid;
+			border-bottom:2px solid;
+			background-clip:content-box;
+			/*这个background-clip的意思是把背景颜色作用在哪个盒子上，一共有三个选项*/		
+			/*一共有三个选项：content-box，padding-box，border-box*/
+		}		
+					
+		
+> - 代码实例：双点圆		
+		
+		CSS:
+		我是三道杠<div class="sandaogang"></div>
+			.doublecircle{
+				display:inline-block;
+				width:100px;
+				height:100px;
+				border-radius:50%;
+				padding:10px;
+				border:10px solid;
+				background-color:black;
+				background-clip:content-box;
+		}		
+		
+		HTML：
+		我是双点圆<div class="doublecircle"></div>		
+		
+		
+<h3 id='2.6'> 2.6 激进的margin</h3>     
+
+#### 1) margin的百分比值
+> - 跟padding一样，都是以父元素的宽度为参考；
+#### 2) margin的合并的三种场景
+> - 块级元素，但不包括浮动和绝对定位元素，尽管浮动和绝对定位可以让元素块状化。
+> - 只发生在垂直方向，需要注意的是，这种说法在不考虑writing-mode 的情况下才是正确的，严格来讲，应该是只发生在和当前文档流方向的相垂直的方向上。由于默认文档流是水平流，因此发生margin 合并的就是垂直方向。
+> - 相邻兄弟margin合并
+> - 父级和第一个或者最后一个子元素margin合并
+>> - 父子margin合并产生的头图掉落问题：父元素没有出一点力，子元素出了全部的力，然后最终的margin 全部合到了父元素上。也就是虽然是在子元素上设置的margin-top，但实际上就等同于在父元素上设置了margin-top，。但是有一点需要注意，“等同于”并不是“就是”的意思。
+>>  - 对于 margin-top 合并，可以进行如下操作（满足一个条件即可）：
+>>>> - • 父元素设置为块状格式化上下文元素,其实就是；
+		
+		.container {
+			overflow: hidden;
+		}		
+		
+>>>> - • 父元素设置border-top 值；
+>>>> - • 父元素设置padding-top 值；
+>>>> - • 父元素和第一个子元素之间添加内联元素进行分隔。
+>> - 对于margin-bottom 合并，可以进行如下操作（满足一个条件即可）：
+>>>> - • 父元素设置为块状格式化上下文元素；
+>>>> - • 父元素设置border-bottom 值；
+>>>> - • 父元素设置padding-bottom 值；
+>>>> - • 父元素和最后一个子元素之间添加内联元素进行分隔；
+>>>> - • 父元素设置height、min-height 或max-height。
+> - 空块级元素的合并
+>> - 其实就是子元素的top和bottom margin 
+		
+		.father { overflow: hidden; }
+		.son { margin: 1em 0; }
+		<div class="father">
+		<div class="son"></div>
+		</div>		
+		
+		
+#### 3) 多列两端对齐		
+> - 示例代码		
+		
+		CSS:
+		ul{		
+			marign-right:-20px;
+			/*用来消灭最后一列的右侧空白*/
+			/*当然了，你可以使用nth-of-type(),但是IE8不兼容*/		
+			/*IE8实在太弱*/
+		}		
+		
+		li{		
+			position:float;
+			width:100px;
+			height:200px;
+			margin-right:20px;
+		}
+
+#### 2) 为滚动条底部留白
+> - Chrome中子元素超过父元素的content box就触发滚动条显示，而IE和Firefox中子元素超过父元素的padding box才触发滚动条显示。所以不能通过修改padding-box来为滚动条底部留白；
+> - 比较简单而且兼容性比较好的做法是给子元素使用margin；
+> - 分栏等高布局：		
+		
+		CSS:
+		.column-box{
+			width:800px;
+			margin:auto;
+			overflow:hidden;
+		}
+		.column-left,
+		.column-right {
+			float:left;
+			width:400px;
+			text-align:center;
+			padding-top:10px;
+			margin-bottom: -9999px;
+			padding-bottom: 9999px;
+			/*为什么要这样一正一负呢？主要是用与增加背景高度*/
+			/*同时使用overflow:hidden去消灭多余的高度，实现等高*/
+			/*不知道你还记得overflow:hidden减掉溢出的内容的原理？*/
+		}
+		.column-left {
+			background-color: #34538b;
+		}
+		.column-right {
+			background-color: #cd0000;
+		}		
+		
+		HTML：	
+		<div class="column-box">
+			<div class="column-left">正方<br>正方</div>
+			<div class="column-right">反方</div>
 		</div>		
 		
 	
