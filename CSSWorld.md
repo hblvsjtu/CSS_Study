@@ -16,17 +16,18 @@
 ### [1.4 height: auto](#1.4) 
 ### [1.5 超越!importance，超越最大](#1.5)
 ### [1.6 内联盒模型](#1.6)
-## [二、构建HTML元素](#2)
-### [2.1 元数据——文档结构元素](#2.1)
-### [2.2 短语元素——标记文字](#2.2) 
-### [2.3 流元素——组织内容](#2.3)
-### [2.4 流元素——文档分节](#2.4)
+## [二、盒尺寸的四大家族](#2)
+### [2.1 替换元素及其特性](#2.1)
+### [2.2 替换元素与非替换元素的区别](#2.2) 
+### [2.3 content的特性](#2.3)
+### [2.4 一些技术](#2.4)
+### [2.5 温和的padding](#2.5)
 ## [三、表格元素](#3)
 ### [3.1 表格元素](#3.1)
 ### [3.2 制作不规则表格](#3.2)
-## [四、表单元素](#4)
-### [4.1 表格元素](#4.1)
-### [4.2 配置表单](#4.2)
+## [四、盒尺寸的四大家族](#4)
+### [4.1 替换元素及其特性](#4.1)
+### [4.2 content的特性](#4.2)
 ### [4.3 input元素和fieldset元素和button元素](#4.3)
 ### [4.4 定制input元素](#4.4)
 ### [4.5 其他表单元素及输入验证](#4.5)
@@ -267,10 +268,397 @@
 >>>>>> ![图1-4 幽灵空白节点.png](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE1-4%20%E5%B9%BD%E7%81%B5%E7%A9%BA%E7%99%BD%E8%8A%82%E7%82%B9.png?raw=true)
 
 > - 规范中的定义是 
->>> Each line box starts with a zero-width inline box with the element’s font and line height properties. We call that imaginary box a “strut”.	
+>>> Each line box starts with a zero-width inline box with the element’s font and line height properties. We call that imaginary box a “strut”.			
+		
+------    
+    
+    
+<h2 id='2'> 二、盒尺寸的四大家族 </h2>
+<h3 id='2.1'> 2.1 替换元素及其特性</h3>     
+
+#### 1) 什么是替换元素
+> - 顾名思义，就是内容可替换的元素；
+> - 还拥有一下特性：
+>> - 内容的外观不受页面的CSS影响，也就是说，样式表现在CSS的作用于之外；
+>> - 有自己的默认尺寸，\<video\>,\<iframe\>,\<canvas\>默认尺寸（没有加载资源之前）都是300px * 150px，而\<img\>则比较特别，各个浏览器下都不一样；
+>> - 在很多CSS属性上有自己的一套表现规则，比较明显的就是vertical-align属性，由于不像文字有基线，替换元素的基线被硬生生的定义为元素下边缘  
+> - 替换元素的 display值 
+>>>>>> ![图2-1 各个替换属性的默认display属性值](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE2-1%20%E5%90%84%E4%B8%AA%E6%9B%BF%E6%8D%A2%E5%B1%9E%E6%80%A7%E7%9A%84%E9%BB%98%E8%AE%A4display%E5%B1%9E%E6%80%A7%E5%80%BC.png?raw=true)		
+> - [inline和block和inline-block的区别：](https://zhidao.baidu.com/question/527108547.html)
+>> - 内联元素是不可以控制宽和高、margin等；并且在同一行显示，不换行。
+>> - 块级元素时可以控制宽和高、margin等，并且会换行。
+>> - inline：使用此属性后，元素会被显示为内联元素，元素则不会换行。
+>> - block：使用此属性后，元素会被现实为块级元素，元素会进行换行。
+>> - inline-block：是使元素以块级元素的形式呈现在行内。意思就是说，让这个元素显示在同一行不换行，但是又可以控制高度和宽度，这相当于内敛元素的增强。
+要注意的是IE6 不支持inline-block
+> - 替换元素的尺寸由内至外可分为三层：固有尺寸，HTML尺寸和CSS尺寸，优先级：CSS尺寸 > HTML尺寸 > 固有尺寸
+>>>>>> ![图2-2 替换元素的三层尺寸](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE2-2%20%E6%9B%BF%E6%8D%A2%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%89%E5%B1%82%E5%B0%BA%E5%AF%B8.png?raw=true)		
+
+> - 在实际应用开发过程中，图片是需要通过滚屏加载的方式异步加载的，为了布局稳健，体验良好，往往会使用一张透明的图片用于占位，但是透明的用于占位的图片也是多余的资源啊，只要设置了scr="",哪怕里面什么都没有，很多浏览器依然会有请求，所以最直接的方法是什么都不写，就直接上来就是\<img\>。但是这里卖弄又有一个问题，就是\<img\>默认的尺寸各家的浏览器都不一样，有的默认高度还是0。所以那就麻烦了，这很影响初次加载时候的体验和布局。那应该怎么做呢？		
+		
+		img { 		
+			display: inline-block; /*此处是为了避免Firefox设置宽高不起效的问题*/ 		
+			width: 200px; 		
+			height: 150px; 		
+			visibility: hidden;}
+		
+		<img>		
+		
+		img[src] { 		
+			visibility: visible; 		
+		}		
+		
+		
+<h3 id='2.2'> 2.2 替换元素与非替换元素的区别</h3>     
+
+#### 1) “我们是无法改变这个替换元素内容的固有尺寸”
+> - 那应该如何证明呢？首先我们需要联系替换元素内容的固有尺寸，那如何联系呢？答案是使用content属性。
+> - 比如我们可以使用伪元素::before和::after		
+		
+		div:before {
+			content: url(1.jpg);
+			display: block;
+			width: 200px; height: 200px;
+		}		
+		
+> - 最终呈现的内容框跟图片固有尺寸不相等
+> - 伪元素::before和::after默认放的是行内元素格式；
+#### 2) 替换元素与非替换元素的区别
+> - 替换元素与非替换元素之间之隔了一个src属性，比如\<img\>去掉或者不加src属性，它的表现就如同非替换元素一般；证明如下，结果是100%占自适应父元素的尺寸：
+		
+		img {
+			display: block;
+			outline: 1px solid;
+		}
+		
+		<img>		
+		
+>> - Chrome 浏览器其实也有类似的表现，只是需要特定的条件触发而已，这个触发条件就是需要有不为空的alt 属性值。例如：此时，Chrome 这个<img>宽度也是100%容器。
+		
+		<img alt="任意值">		
+		
+>> - 唯一例外的是IE 浏览器中有个默认的占位替换内容，当src 属性缺失的时候，会使用这个默认的占位内容，这也是IE 浏览器下默认<img>尺寸是28×30 而不像Chrome 浏览器那样为0×0 的原因所在。在高版本的IE 浏览器下，这个占位的替换内容似乎做了透明处理，但是，在原生的IE8浏览器下，这个占位内容却全然暴露了。
+> - 另外一个区别就是隔了一个content属性
+>> - content属性应用与content-box，从理论层面讲，content属性决定这是替换元素还是非替换元素；
+		
+<h3 id='2.3'> 2.3 content的特性</h3>     
+
+#### 1) content的特性
+> - img元素可以使用content属性进行图片的替换，跟src的效果一模一样，就是有一点区别就是content属性只是视觉的效果（视觉层，其实从本质上将并没有实质性的内容，可以被：empty伪类选择器找到），如果使用右键另存为或者网络搜索得到的对象依然是src。		
+		
+		<div>有内容</div>
+		<div>		
+		</div>		
+		
+		div {		
+			padding: 10px;		
+			border: 10px solid #cd0000;		
+		}		
+		
+		div:empty {		
+			border-style: dashed;		
+		}		
+		div::after{		
+			content: "伪元素生成内容";		
+		}
+		
+> - 最后只有"伪元素生成内容"被红线框住了；
+> - 而且还有一个缺点就是使用content属性我们无法改变图片的固有尺寸，所以我们在实际开发过程中直接使用content来加载图片，因为如果没有尺寸限制，都是尺寸为0，然后忽然图片尺寸一下子出现，所导致的问题就是页面加载的时候会晃动，影响体验。为了避免这个问题，我们只能限制容器尺寸，那么，既然限制了容器尺寸，为何不使用background-image 呢？显然更好控制啊？所以，只有不需要控制尺寸的图片才有使用优势。
+		
+		CSS：
+		a {
+		  text-decoration: underline;
+		  color: #cd0000;
+		}
+		a[target="_blank"]:after {
+		  content: url(data:image/gif;base64,R0lGODlhBQAFAIABAM0AAAAAACH5BAEAAAEALAAAAAAFAAUAAAIHRIB2eKuOCgA7);		
+		  /* 所谓"data"类型的Url格式，是在RFC2397中 提出的，目的对于一些“小”的数据，可以在网页中直接嵌入，而不是从外部文件载入。例如对于img这个Tag，哪怕这个图片非常非常的小，小到只有一个 点，也是要从另外一个外部的图片文件例如gif文件中读入的，如果浏览器实现了data类型的Url格式，这个文件就可以直接从页面文件内部读入了。*/ 
+		}		
+		
+		HTML：
+		<p>下面这段话所有链接地址都是本实例。</p>
+		<p>点击<a href="">这个链接</a>当前页刷新，看看有没有标记；点击<a href="" target="_blank">这个链接</a>，新标签页新打开一次本页面，看看有没有标记。</p>		
+		
+> - 关于data:解析的链接：[data:](http://www.jb51.net/css/41981.html);
+> - 这里有人可能会反驳：content 内容无法复制也可能是伪元素的原因，而不是替换元素的原因。要回答这个问题，我们可以将其与同样是替换元素的::first-letter 对比一下。在IE 和Firefox 浏览器下，::first-letter 伪元素内容都是可以被选中的，但是::before/::after内容却无法选中。由此可见，文字无法选中多半是content 的原因，而非伪元素。
+> - 在Chrome浏览器下，所有的元素都支持content 属性，而其他浏览器仅在::before/::after 伪元素中才有支持。在实际项目中，content 属性几乎都是用在::before/::after 这两个伪元素中，因此，“content 内容生成技术”有时候也称为“::before/::after 伪元素技术”。提前说明一下，因为本书目标浏览器是IE8 及以上版本浏览器，而IE8 浏览器仅支持单冒号的伪元素，所以下面内容代码示意部分全部使用单冒号。
+> - content辅助元素的生成，将属性值设置为“”即可，不需要加点号“.”
+> - attr属性，可以显示任意元素属性的生成，包括自定义属性data-；
+> - 混合特性		
+		
+		a:after {
+			content: "(" attr(href) ")";
+		}
+		q:before {
+			content: open-quote url(1.jpg);
+		}
+		.counter:before {
+			content: counters(wangxiaoer, '-') '. ';
+		}		
+		
+		
+<h3 id='2.4'> 2.4 一些技术</h3>     
+
+#### 1) 基于伪元素的图片生成技术
+> - 定义：我们可以对<img>元素使用::before 和::after 伪元素进行内容生成以及样式构建，但是这种方法支持是有限制的。首先是兼容性问题。
+> - 为什么需要这种技术：使用缺省src 的<img>元素实现滚屏加载效果，但是，就有可能存在这样一个体验问题：如果我们的JavaScript 加载比较慢，我们的页面就很有可能出现一块一块白色的图片区域，纯白色的，没有任何信息，用户完全不知道这里的内容是什么。虽然alt 属性可以提供描述信息，但由于视觉效果不好，被隐藏掉了。此时，要是在图片还没加载时就把alt 信息呈现出来该多好啊。
+> - 需要达到的目的：在图片还没有加载之前可以有提示信息
+> - 条件
+>> - （1）不能有src属性（证明观点的关键所在）；
+>> - （2）不能使用content 属性生成图片（针对Chrome）；
+>> - （3）需要有alt 属性并有值（针对Chrome）；
+>> - （4）Firefox 下::before 伪元素的content 值会被无视，::after 无此问题，应该与Firefox 自己占用了::before 伪元素的content 属性有关。	
+> - 代码：		
+		
+		img::after {
+		/* 生成alt 信息，attr用来把元素的属性值显示出来 */
+		content: attr(alt);
+		/* 尺寸和定位 */
+		position: absolute; bottom: 0;
+		width: 100%;
+		background-color: rgba(0,0,0,.5);
+		transform: translateY(100%);
+		/* 来点过渡动画效果 */
+		transition: transform .2s;
+		}
+		img:hover::after {
+		/* alt 信息显示 */
+		transform: translateY(0);
+		}		
+		
+#### 2) 正在加载中...动态效果
+> - 代码：正在加载中...动态效果		
+		
+		CSS:
+		dot{
+			display:inline-block;
+			height:1em;
+			line-height:1;
+			vertical-align:-0.25em;
+			text-align:left;
+			overflow:hidden;
+			/* 如果不加的话，整个行框会被顶起来 */
+			background-color:pink;
+		}
+		dot::before{
+			display:block;		
+			/* 将原来的三个点推到下面*/
+			content:'...\A..\A.';		
+			/* 三个点放在第一行，目的是兼容IE9，因为IE9认识：before和dot，但是不认识animation*/
+			white-space: pre-wrap;
+			/* 张老师说用pre也可以，这是指心情使然，无语ing~*/
+			animation:dot 3s infinite step-start both;
+		}
+		@keyframes dot{		
+			/* 初始在。。。开始 */
+			33%{
+				transform: translateY(-2em);		
+				/* 从。开始 */
+			}
+			66%{
+				transform: translateY(-1em);		
+				/* 再到。。。 */
+			}
+		}		
+		
+		HTML:
+		图片加载中<dot>....</dot>		
+#### 3) 计数器代码		
+> - 计数器代码：
+		
+		CSS:
+		.reset{
+			padding-left:1em;
+			counter-reset:num;		
+			/* 默认值为0 */
+		}
+		.mylist::before{
+			content: counters(num, '-') '. '; 
+			counter-increment: num;
+			/* 第一次出现的时候就+1，0+1=1 */
+		}
+		.mylistnext{
+			padding-left:1em;
+			/* 为什么要加上这个呢？是因为经过插入下一级后返回原级的时候，如果不加，缩进就取消了，*/
+		}
+		.mylist:hover{
+			padding:0 6em;
+			border-right: 2px dashed;
+			transition:border-right,padding 2s ease-in-out 0.5s ;
+			-webkit-transition:border-right,padding 2s ease-in-out 0.5s ; /*Safari and Chrome*/
+		}		
+		
+		HTML:
+		<div class="reset" >
+			<div class="mylist">冰红茶1</div>
+			<div class="reset">
+				<div class="mylist">冰红茶11</div>
+				<div class="mylist">冰红茶12</div>
+				<div class="mylist">冰红茶13</div>
+			</div>
+		</div>
+		<div class="mylist mylistnext">冰红茶2</div>
+		<div class="mylist mylistnext">冰红茶3</div>
+		<div class="mylist mylistnext">冰红茶4</div>
+		<div class="mylist mylistnext">冰红茶5</div>
+		</div>		
+		
+		
+<h3 id='2.5'> 2.5 温和的padding</h3>     
+
+#### 1) 定义与作用
+> - padding也称元素的“内部间”；
+> - inline元素的padding既会影响视觉层叠，也会影响外部尺寸，如左右的em串的间距，上下行的层叠(如果给他加个背景颜色的话是可以看到的，或者给它弄个overflow: scroll,你有机会会看到滚动条;)
+> - padding的百分比无论是水平方向还是垂直方向，都是依赖父元素的宽度，我估计这最初的设计是用来避免高度的死循环吧
+> - 可以用来增加按钮或者链接的点击区域，因为有时候在手机等小屏幕的上，1em的高度人的手指点起来不方便，可以给他加一个大的padding，
+> - 代码实例：三道杠		
+		
+		CSS:
+		.sandaogang{
+			display:inline-block;
+			width: 140px;
+			height:2px;
+			padding:10px 0;
+			background-color:black;
+			border-top:2px solid;
+			border-bottom:2px solid;
+			background-clip:content-box;
+			/*这个background-clip的意思是把背景颜色作用在哪个盒子上，一共有三个选项*/		
+			/*一共有三个选项：content-box，padding-box，border-box*/
+		}		
+					
+		
+> - 代码实例：双点圆		
+		
+		CSS:
+		我是三道杠<div class="sandaogang"></div>
+			.doublecircle{
+				display:inline-block;
+				width:100px;
+				height:100px;
+				border-radius:50%;
+				padding:10px;
+				border:10px solid;
+				background-color:black;
+				background-clip:content-box;
+		}		
+		
+		HTML：
+		我是双点圆<div class="doublecircle"></div>		
+		
+		
+<h3 id='2.6'> 2.6 激进的margin</h3>     
+
+#### 1) margin的百分比值
+> - 跟padding一样，都是以父元素的宽度为参考；
+#### 2) margin的合并的三种场景
+> - 块级元素，但不包括浮动和绝对定位元素，尽管浮动和绝对定位可以让元素块状化。
+> - 只发生在垂直方向，需要注意的是，这种说法在不考虑writing-mode 的情况下才是正确的，严格来讲，应该是只发生在和当前文档流方向的相垂直的方向上。由于默认文档流是水平流，因此发生margin 合并的就是垂直方向。
+> - 相邻兄弟margin合并
+> - 父级和第一个或者最后一个子元素margin合并
+>> - 父子margin合并产生的头图掉落问题：父元素没有出一点力，子元素出了全部的力，然后最终的margin 全部合到了父元素上。也就是虽然是在子元素上设置的margin-top，但实际上就等同于在父元素上设置了margin-top，。但是有一点需要注意，“等同于”并不是“就是”的意思。
+>>  - 对于 margin-top 合并，可以进行如下操作（满足一个条件即可）：
+>>>> - • 父元素设置为块状格式化上下文元素,其实就是；
+		
+		.container {
+			overflow: hidden;
+		}		
+		
+>>>> - • 父元素设置border-top 值；
+>>>> - • 父元素设置padding-top 值；
+>>>> - • 父元素和第一个子元素之间添加内联元素进行分隔。
+>> - 对于margin-bottom 合并，可以进行如下操作（满足一个条件即可）：
+>>>> - • 父元素设置为块状格式化上下文元素；
+>>>> - • 父元素设置border-bottom 值；
+>>>> - • 父元素设置padding-bottom 值；
+>>>> - • 父元素和最后一个子元素之间添加内联元素进行分隔；
+>>>> - • 父元素设置height、min-height 或max-height。
+> - 空块级元素的合并
+>> - 其实就是子元素的top和bottom margin 
+		
+		.father { overflow: hidden; }
+		.son { margin: 1em 0; }
+		<div class="father">
+		<div class="son"></div>
+		</div>		
+		
+		
+#### 3) 多列两端对齐		
+> - 示例代码		
+		
+		CSS:
+		ul{		
+			marign-right:-20px;
+			/*用来消灭最后一列的右侧空白*/
+			/*当然了，你可以使用nth-of-type(),但是IE8不兼容*/		
+			/*IE8实在太弱*/
+		}		
+		
+		li{		
+			position:float;
+			width:100px;
+			height:200px;
+			margin-right:20px;
+		}
+
+#### 2) 为滚动条底部留白
+> - Chrome中子元素超过父元素的content box就触发滚动条显示，而IE和Firefox中子元素超过父元素的padding box才触发滚动条显示。所以不能通过修改padding-box来为滚动条底部留白；
+> - 比较简单而且兼容性比较好的做法是给子元素使用margin；
+> - 分栏等高布局：		
+		
+		CSS:
+		.column-box{
+			width:800px;
+			margin:auto;
+			overflow:hidden;
+		}
+		.column-left,
+		.column-right {
+			float:left;
+			width:400px;
+			text-align:center;
+			padding-top:10px;
+			margin-bottom: -9999px;
+			padding-bottom: 9999px;
+			/*为什么要这样一正一负呢？主要是用与增加背景高度*/
+			/*同时使用overflow:hidden去消灭多余的高度，实现等高*/
+			/*不知道你还记得overflow:hidden减掉溢出的内容的原理？*/
+		}
+		.column-left {
+			background-color: #34538b;
+		}
+		.column-right {
+			background-color: #cd0000;
+		}		
+		
+		HTML：	
+		<div class="column-box">
+			<div class="column-left">正方<br>正方</div>
+			<div class="column-right">反方</div>
+		</div>		
+		
+	
 
 
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
