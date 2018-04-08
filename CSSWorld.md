@@ -22,6 +22,8 @@
 ### [2.3 content的特性](#2.3)
 ### [2.4 一些技术](#2.4)
 ### [2.5 温和的padding](#2.5)
+### [2.6 激进的margin](#2.6)
+### [2.7 功勋卓越的border](#2.7)
 ## [三、表格元素](#3)
 ### [3.1 表格元素](#3.1)
 ### [3.2 制作不规则表格](#3.2)
@@ -558,32 +560,102 @@
 > - 父级和第一个或者最后一个子元素margin合并
 >> - 父子margin合并产生的头图掉落问题：父元素没有出一点力，子元素出了全部的力，然后最终的margin 全部合到了父元素上。也就是虽然是在子元素上设置的margin-top，但实际上就等同于在父元素上设置了margin-top，。但是有一点需要注意，“等同于”并不是“就是”的意思。
 >>  - 对于 margin-top 合并，可以进行如下操作（满足一个条件即可）：
->>>> - • 父元素设置为块状格式化上下文元素,其实就是；
+>>>> - 父元素设置为块状格式化上下文元素,其实就是；
 		
+		CSS:
 		.container {
 			overflow: hidden;
 		}		
 		
->>>> - • 父元素设置border-top 值；
->>>> - • 父元素设置padding-top 值；
->>>> - • 父元素和第一个子元素之间添加内联元素进行分隔。
+>>>> - 父元素设置border-top 值；
+>>>> - 父元素设置padding-top 值；
+>>>> - 父元素和第一个子元素之间添加内联元素进行分隔。
 >> - 对于margin-bottom 合并，可以进行如下操作（满足一个条件即可）：
->>>> - • 父元素设置为块状格式化上下文元素；
->>>> - • 父元素设置border-bottom 值；
->>>> - • 父元素设置padding-bottom 值；
->>>> - • 父元素和最后一个子元素之间添加内联元素进行分隔；
->>>> - • 父元素设置height、min-height 或max-height。
+>>>> - 父元素设置为块状格式化上下文元素；
+>>>> - 父元素设置border-bottom 值；
+>>>> - 父元素设置padding-bottom 值；
+>>>> - 父元素和最后一个子元素之间添加内联元素进行分隔；
+>>>> - 父元素设置height、min-height 或max-height。
 > - 空块级元素的合并
->> - 其实就是子元素的top和bottom margin 
+>> - 其实就是子元素的top和bottom margin合并 
 		
+		CSS:
 		.father { overflow: hidden; }
-		.son { margin: 1em 0; }
+		.son { margin: 1em 0; }		
+		
+		HTML：
 		<div class="father">
 		<div class="son"></div>
 		</div>		
 		
+>>>> - 设置垂直方向的border；
+>>>> - 设置垂直方向的padding；
+>>>> - 里面添加内联元素（直接Space 键空格是没用的）；
+>>>> - 设置height 或者min-height。	
+> - margin合并的三规则：“正正取大值”“正负值相加”“负负最负值”0
+> - 合并性的好处：增加容错性；
+#### 3) 深入理解margin auto
+> - 绝对定位元素水平垂直居中
 		
-#### 3) 多列两端对齐		
+		CSS:
+		.box{		
+			position:relative;		
+			width:20em; 		
+			height:10em; 		
+			border:dashed 2px black;		
+		}		
+		
+		.son{		
+			position:absolute; 		
+			/* 绝对定位必须要有*/
+			top:0; 		
+			bottom:0;		
+			left:0;		
+			right:0;
+			/*四个定位的方向必须要有，而且左右相等，上下相等*/
+			width:10em;
+			height:5em;			
+			/*必须要有宽度和高度*/
+			margin:auto;	
+			/* 外边距auto必须要有*/
+			background-color:pink;		
+			}		
+			
+#### 4) margin 无效情形解析		
+> - display 计算值inline 的非替换元素的垂直margin 是无效的，虽然规范提到有渲染，但浏览器表现却未寻得一点踪迹，这和padding 是有明显区别的。
+> - 对于内联替换元素，垂直margin 有效，并且没有margin 合并的问题，所以图片永远不会发生margin 合并。	
+> - 绝对定位元素非定位方位的margin 值“无效”。也就是说，定位方向和margin的方向必须要共存，如；
+		
+		CSS:
+		img { 		
+			top: 10%; 	
+			left: 30%;		
+		}		
+		
+		img {		
+			top: 10%; 		
+			left: 30%;		
+			margin-right: 30px;		
+		}		
+		
+> - 定高容器的子元素的margin-bottom 或者宽度定死的子元素的margin-right 的定位“失效”。，原因在于margin要生效必要要有依靠，按照普通正常流的定位，是从左到右，从上到下，所以左和上是他的依靠，所以定义margin-left和margin-top才有用，margin-right和margin-bottom只能影响下一个兄弟元素，或者跟父元素的margin合并并影响下一个元素。绝对定位元素也是，他默认没有任何的依靠，只有你声明了上下左右偏移之后才有依靠，浮动元素也同理，设置了浮动方向之后该方向就称为了依靠，此时margin的方向才有用。如：
+		
+		HTML：
+		<div class="box">		
+		<div class="child"></div>		
+		</div>
+		
+		CSS:
+		.box {		
+			height: 100px;		
+		}		
+		
+		.child {		
+		height: 80px;		
+		margin-bottom: 100px;		
+		}		
+		
+#### 5) 多列两端对齐		
 > - 示例代码		
 		
 		CSS:
@@ -601,7 +673,7 @@
 			margin-right:20px;
 		}
 
-#### 2) 为滚动条底部留白
+#### 6) 为滚动条底部留白
 > - Chrome中子元素超过父元素的content box就触发滚动条显示，而IE和Firefox中子元素超过父元素的padding box才触发滚动条显示。所以不能通过修改padding-box来为滚动条底部留白；
 > - 比较简单而且兼容性比较好的做法是给子元素使用margin；
 > - 分栏等高布局：		
@@ -637,10 +709,164 @@
 			<div class="column-right">反方</div>
 		</div>		
 		
-	
+		
+<h3 id='2.7'> 2.7 功勋卓越的border</h3>     
 
+#### 1) 为什么border不支持百分比
+> - 等比例缩放不符合边框的语义；
+> - 没有应用的场景；
+#### 2) 应用实例
+> - 三道杠实现的第二个方法——双横线
+		
+		
+		<div style="width:9em; height:2em;
+					border-top:double 6em;
+					/*此处双横线的上线和下线和中间区域自动平分，各占2em*/
+					border-bottom:solid 2em; 
+					background-color:pink;">
+			我是一个三道杠少年
+		</div>		
+				
+>>>>>> ![图2-4 三道杠少年](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE2-4%20%E4%B8%89%E9%81%93%E6%9D%A0%E5%B0%91%E5%B9%B4.png?raw=true)		
 
+> - 上传图片框：
+		
+		.add{
+			position: relative;
+			/*主要是一横和一竖需要重叠，所以设置为相对位置*/
+			width:8em;
+			height:8em;
+			color:grey;
+			/*所有的后代及其边框都会跟据这个前景色的变化而变化*/
+			transition: color .25s;
+			border:dotted;
+		}
+		.add::before, .add::after {
+			content:'';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			border:solid;
+		}
+		.add:before{
+			height:1em;
+			width:0;
+			margin-top:-0.5em;
+			/*一竖也是有宽度的，放中间，*/
+		}
+		.add:after{
+			width:1em;
+			height:0;
+			margin-left:-0.5em;
+			/*一横也是有宽度的，放中间，*/
+		}
+		.add:hover {
+			color:red;
+			/*变色*/
+		}		
+		
+>>>>>> ![图2-5 上传图片框](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE2-5%20%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%86.png?raw=true)			
+> - 正圆 利用dotted边框画正圆；
 
+		CSS:		
+		.box{
+			width:150px;		
+			height:150px; 		
+			overflow:hidden;
+		}		
+		
+		.circle{
+			/*overflow:hidden;是为了把多余的三个圆点消灭掉*/
+			width:100%;		
+			height:100%;		
+			border:150px dotted #cd0000;
+			/*border:150px要与宽度和高度相等*/
+		}		
+		
+> - 圆角矩形 利用dotted边框画圆角矩形；		
+				
+		CSS:	
+		.box{		
+		position:relative;		
+		/*position:relative 这是为了后面便于文字居中的需要。width/height的比例要大于0.5小于2，避免出现6个或以上圆点*/
+		width:120px; 		
+		height:80px; 		
+		border:150px dotted #cd0000;		
+		}
+		
+		.highRect{
+			position:absolute;		
+			top:-150px;		
+			bottom:0;		
+			left:-75px;		
+			right:-75px; 		
+			height:380px;
+			/* top:-150px(border的宽度或者叫圆角的直径); bottom:0;*/
+			/* height:380px(2倍border的宽度 + 父元素高度); 把content-box的矩形拉高*/
+			background-color:#cd0000; 		
+		}		
+		
+		.longRect{		
+			position:absolute; 		
+			top:-75px; 		
+			bottom:-75px; 		
+			left:-150px;		
+			right:0px;		
+			width:420px; 
+			/* left:-150px(border的宽度或者叫圆角的直径);right:0px；*/
+			/* width:420px(2倍border的宽度 + 父元素宽度); 把content-box的矩形拉长*/
+			background-color:#cd0000;		
+		}
+		
+		.text{
+			position:absolute; 		
+			top:0; bottom:0;left:0;right:0; 		
+			width:10em; 		
+			height:1em; 		
+			margin:auto">
+			/*margin:auto文字居中*/
+		}		
+				
+>>>>>> ![图2-3 正圆与圆角矩形](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE2-3%20%E6%AD%A3%E5%9C%86%E4%B8%8E%E5%9C%86%E8%A7%92%E7%9F%A9%E5%BD%A2.png?raw=true)		
+> - 背景图以右下角为参考的技巧——border transparent的属性
+		
+		CSS：		
+		.box{		
+			width:540px; 	
+			height:640px; 	
+			border-right:50px solid transparent;
+			/*设置靠右的距离是50px*/
+			background:url(123.jpg) bottom right;
+			/*设置从右下角开始px*/		
+			
+			
+> - 可以使用透明border或者增加padding来增加点击的区域
+> - 可以实现可控的上等腰或者不等腰三角或者下等腰或者不等要三角绘制
+		
+		CSS：		
+		.Triangle{		
+			width:0;
+			/*有宽度的时候还可以实现梯形*/
+			height:40px; 		
+			border:solid 10px; 		
+			border-left:solid 5px;		
+			border-right:solid 5px;	
+			/*通过控制边界的尺寸可以控制三角形的角度*/
+			border-color:red transparent transparent;		
+			/*通过控制透明的边界可以控制三角形的摆放位置，边界的大小和颜色需要分开*/
+		}		
+		
+> - 可以实现可控的四色转角连接
+		
+		CSS：		
+		.Triangle{		
+			width:0; 		
+			height:40px; 		
+			border:solid 30px; 		
+			/*通过控制边界的尺寸可以控制三角形的角度*/
+			border-color:red blue green black;		
+			/*通过控制透明的边界可以控制三角形的摆放位置，边界的大小和颜色需要分开*/
+		}	
 
 
 
