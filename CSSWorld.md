@@ -869,7 +869,38 @@
 		}	
 
 
-
+> - 等高布局，利用border实现2，3，4，5列的布局
+		
+		CSS：
+		/* 导航背景区border创建 */
+		.box { 
+		  border-left: 150px solid #333;
+		  background-color: #f0f3f9;
+		}
+		/* 清除浮动影响，不能使用overflow:hidden */
+		/* 因为overflow的作用域只在padding-box*/
+		.box:after {
+		  content: "";
+		  display: block;
+		  clear: both;
+		}
+		/* 布局主结构 */
+		.box > nav {
+		  width: 150px;
+		  margin-left: -150px;
+		  float: left;
+		}
+		.box > section {
+		    overflow: hidden;
+		}
+		/* 导航列表和模块列表 */
+		.nav {
+		    line-height: 40px;
+		    color: #fff;
+		}
+		.module {
+		    line-height: 40px;
+		}
 
 
 
