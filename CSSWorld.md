@@ -24,9 +24,12 @@
 ### [2.5 温和的padding](#2.5)
 ### [2.6 激进的margin](#2.6)
 ### [2.7 功勋卓越的border](#2.7)
-## [三、表格元素](#3)
-### [3.1 表格元素](#3.1)
-### [3.2 制作不规则表格](#3.2)
+## [三、内联元素与流](#3)
+### [3.1 从字母x说起](#3.1)
+### [3.2 基线与text-top和text-bottom](#3.2)
+### [3.3 line-height](#3.3)
+### [3.4 vertical-align](#3.4)
+### [3.5 幽灵空白节点](#3.5)
 ## [四、盒尺寸的四大家族](#4)
 ### [4.1 替换元素及其特性](#4.1)
 ### [4.2 content的特性](#4.2)
@@ -900,8 +903,149 @@
 		}
 		.module {
 		    line-height: 40px;
-		}
+		}		
 
+
+------    
+    
+    
+<h2 id='3'> 三、内联元素与流 </h2>
+<h3 id='3.1'> 3.1 从字母x说起</h3>     
+
+#### 1) 基线
+> - 什么是基线？字母x 的下边缘（线）就是我们的基线。
+>>>>>> ![图3-1 基线的位置](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE3-1%20%E5%9F%BA%E7%BA%BF%E7%9A%84%E4%BD%8D%E7%BD%AE.png?raw=true)		
+		
+#### 2) 不严格的垂直对齐的替换——line-height=1em
+> - 理论上x的高度是0.5em，x头顶着的就是中线，所以设置inline-block的高度为1em就可以实现垂直对齐。其实就是相当于vertical-align: middle；		
+		
+		.icon-arrow {
+			display: inline-block;
+			width: 20px;
+			height: 1ex;
+			background: url(arrow.png) no-repeat center;
+		}	
+		
+		
+#### 3)  多行文本的内联元素近似垂直对齐
+> - 本质上是把line-height当成是盒子的高度，然后把多行文本当成是一个inline-block，然后设置vertical-align:middle;
+> - inline-block的出现为盒子.content 元素带来了“行框盒子”，而每个“行框盒子”都会附带的一个产物—“幽灵空白节点”，即一个宽度为0、表现如同普通字符的看不见的“节点”。有了这个“幽灵空白节点”，line-height就有了作用的对象，从而相当于在.content元素前面撑起了一个高度为line-height的宽度为0的内联元素，以及提供了基线的基准。
+		
+		.box {
+			line-height: 120px;
+			background-color: #f0f3f9;
+		}
+		.content {
+			display: inline-block;
+			line-height: 20px;
+			margin: 0 20px;
+			vertical-align: middle;
+		}
+		<div class="box">
+		<div class="content">基于行高实现的...</div>
+		</div>	
+		
+> - 为什么说近似呢？因为真正的中间对齐的位置应该在x的交叉点再上去一点点，说明x在大部分的字体中其实是下沉的，而且这种不对齐现象在字号越大的情况下越明显
+		
+		
+#### 4) 内容区(content area)
+> - 大多数场景下，内容区域(content area) 和em-box 是不一样的，内容区域高度受font-family 和 font-size 双重影响，而em-box 仅受font-size 影响，通常内容区域高度要更高一些。除了下面这种情况，也就是“当我们的字体是宋体的时候，内容区域和em-box 是等同的”，因为宋体是一种正统的印刷字体，方方正正，所以千万不要小看宋体。
+
+#### 5) 行间距
+> - border以及line-height 等传统CSS属性并没有小数像素的概念（从CSS3 动画的细腻程度可以看出），因此，这里的3.5px 需要取整处理，如果标注的是文字上边距，则向下取整；如果是文字下边距，则向上取整，因为绝大多数的字体在内容区域中都是偏下的。
+
+<h3 id='3.2'> 3.2 基线与text-top和text-bottom</h3>     
+
+#### 1) 定义
+> - vertical-align 属性的默认值baseline 在文本之类的内联元素那里就是字符x的下边缘
+> - 对于替换元素则是替换元素的下边缘
+> - 对于inline-block元素，如果里面没有内联元素，或者overflow 不是visible，则该元素的基线就是其margin底边缘；否则其基线就是元素里面最后一行内联元素的基线。
+
+#### 2) text-top和text-bottom
+> - 其实就是内联元素的上下边缘与父元素的字体的内容区域的上下边缘对齐。
+>>>>>> ![图3-2 text-top和text-bottom.png](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE3-2%20text-top%E5%92%8Ctext-bottom.png?raw=true)			
+
+
+
+<h3 id='3.3'> 3.3 line-height</h3> 
+
+#### 1) 作用区域
+> - 对于纯文本元素，line-height直接决定最终的高度。但是，如果同时有替换元素，则line-height只能决定最小高度，而由vertical-align和height决定上行边界，下行边界由下边距决定。
+#### 2) line-height=0的后果
+> - 行间距消失;
+> - 多行合一;
+> - 行框线挂在文字中间；
+> -如果有background或者border的话显示区域下降0.5em。这是因为line-height=0使得行框变成一条直线并与有形元素框的上边缘重叠，此时文字的中心线与行框线与上边缘重合，使得background或者border的话显示区域相比较下下降0.5em。
+
+#### 3) font-size=0的后果——文字从中间消失，基线上下分别就是上下半行距
+> - 相对来讲，font-size=0的后果比line-height轻得多，跟据公式：
+		
+		对于有文字的inline-block，文字不见了		
+		
+		但是行间距不变，上下间距的大小取决于line-height的大小		
+		
+		基线在上下间距的内边界上重合，基线位于行框的中心线上，其实就相当于文字从中间消失，基线上下分别就是上下半行距		
+	
+
+<h3 id='3.4'> 3.4 vertical-align</h3>		
+
+#### 1) 作用前提
+> - 只能应用于内联元素以及display 值为table-cell 的元素。换句话说，vertical-align 属性只能作用在display 计算值为inline、inlineblock，inline-table 或table-cell 的元素上。因此，默认情况下，、\<span\>、\<strong\>、\<em\>等内联元素，\<img\>、\<button\>、\<input\>等替换元素，非HTML 规范的自定义标签元素，以及\<td\>单元格，都是支持vertical-align 属性的，其他块级元素则不支持。
+#### 2) vertical-align:baseline
+> - vertical-align:baseline 或者默认情况下，作用元素外面的内联元素的受作用元素内部的内联元素影响，作用元素外面的内联元素的基线与作用元素内部的内联元素的基线对齐。
+#### 3) vertical-align:middle
+> - vertical-align:middle作用在content内联元素上，使得content元素垂直中线（不是里面的子元素，就是该元素本身垂直中线）与其他兄弟content内联元素或者匿名内联元素的垂直中线同在行框的中心线上，作用元素外面的内联元素的不受作用元素内部的内联元素影响，两者独立开来；
+#### 4) vertical-align:top bottom top,bottom,text-top和text-bottom
+> - vertical-align:top bottom top,bottom,text-top和text-bottom 作用在content内联元素上，使得content元素上下边框边缘或者文本框上下边缘（不是里面的子元素，就是该元素本身上下边框边缘或者文本框上下边缘）在行框的上下边框边缘或者文本框上下边缘，作用元素外面的内联元素的不受作用元素内部的内联元素影响，也不受作用元素影响，该干嘛还是干嘛，两者独立开来；
+#### 5) 比较
+> - vertical-align:middle top,bottom,text-top和text-bottom针对的还是作用元素他自己本身，跟它里面的内联元素没有半毛钱的关系，同时都会把行框撑大，最后也只有在middle的作用下，该一行的兄弟content内联元素才会受middle的影响，它和作用元素的垂直中线位于该一行的行框的垂直中线上，其他行不行。其他的（top,bottom,text-top和text-bottom）的作用下并不能影响兄弟content内联元素。		
+#### 6) 案例
+> - 基于vertical-align 属性的水平垂直居中弹框		
+> - 关于父元素和子元素都不定高的垂直问题
+		
+		HTML：
+		<div class="container">
+			<div class="dialog"></dialog>
+		</div>		
+		
+		CSS：
+		.container {		
+			position: fixed;		
+			top: 0; right: 0; bottom: 0; left: 0;
+			background-color: rgba(0,0,0,.5);
+			text-align: center;
+			font-size: 0;		
+			/* 保证伪元素的字不可见*/
+			white-space: nowrap;		
+			/* 使得整个父元素只有一行*/
+			overflow: auto;
+		}		
+		
+		.container:after {
+			content: '';
+			display: inline-block;
+			height: 100%;
+			/* 撑起行框，使得整个父元素只有一行*/
+			vertical-align: middle;		
+			/* 影响周围的兄弟content内联元素，使其一起居中*/
+		}		
+		
+		.dialog {
+			display: inline-block;
+			vertical-align: middle;
+			text-align: left;
+			font-size: 14px;
+			white-space: normal;
+		}		
+		
+		
+
+<h3 id='3.5'> 3.5 幽灵空白节点</h3>  
+
+> - 在HTML5 文档模式下，每一个“行框盒子”的前面都有一个宽度为0的“幽灵空白节点”，其内联特性表现和普通字符一模一样；
+> - 他的基线是作为参考用的。所以vertical-align对它没有任何用处；
+> - 如果要消灭他的行间距，只有使用line-height=0的方法;
+> - 如果要消灭他的存在，只有使用fon-size=0的方法，但是会保留行间距；	
 
 
 
