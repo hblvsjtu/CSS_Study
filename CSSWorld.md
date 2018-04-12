@@ -30,25 +30,13 @@
 ### [3.3 line-height](#3.3)
 ### [3.4 vertical-align](#3.4)
 ### [3.5 幽灵空白节点](#3.5)
-## [四、盒尺寸的四大家族](#4)
-### [4.1 替换元素及其特性](#4.1)
-### [4.2 content的特性](#4.2)
-### [4.3 input元素和fieldset元素和button元素](#4.3)
-### [4.4 定制input元素](#4.4)
-### [4.5 其他表单元素及输入验证](#4.5)
-## [五、嵌入内容](#5)
-### [5.1 嵌入图像](#5.1)
-### [5.2 嵌入另一张HTML文档](#5.2)
-### [5.3 通过插件嵌入内容](#5.3)
-### [5.4 嵌入数字表现形式](#5.4)
-## [六、理解DOM](#6)
-### [6.1 理解DOM](#6.1)
-### [6.2 使用audio元素](#6.2)
-## [六、使用多媒体](#6)
-### [6.1 使用video元素](#6.1)
-### [6.2 使用audio元素](#6.2)
-## [七、使用canvas元素](#7)
-### [7.1 理解DOM](#7.1)
+## [四、流的破坏与保护](#4)
+### [4.1 魔鬼属性float](#4.1)
+### [4.2 float的天然克星clear](#4.2)
+### [4.3 CSS世界的结界——BFC](#4.3)
+### [4.4 最佳结界——overflow](#4.4)
+### [4.5 absolute](#4.5)
+### [4.6 relative和fix](#4.6)
 ------    
     
     
@@ -994,12 +982,10 @@
 #### 2) vertical-align:baseline
 > - vertical-align:baseline 或者默认情况下，作用元素外面的内联元素的受作用元素内部的内联元素影响，作用元素外面的内联元素的基线与作用元素内部的内联元素的基线对齐。
 #### 3) vertical-align:middle
-> - vertical-align:middle作用在content内联元素上，使得content元素垂直中线（不是里面的子元素，就是该元素本身垂直中线）与其他兄弟content内联元素或者匿名内联元素的垂直中线同在行框的中心线上，作用元素外面的内联元素的不受作用元素内部的内联元素影响，两者独立开来；
+> - vertical-align:middle作用在content内联元素上，使得content元素垂直中线（不是里面的子元素，就是该元素本身垂直中线）匿名内联元素的中线（基线往上0.5ex）同在行框的中心线上，基线由于匿名内联元素的移动而变化。如果作用元素的高度比原有行框的高度要高，则会撑大行框（即双边作用）。作用元素外面的内联元素的不受作用元素内部的内联元素影响，两者独立开来；其他内联元素inline-block则按照默认baseline的对齐方式；
 #### 4) vertical-align:top bottom top,bottom,text-top和text-bottom
-> - vertical-align:top bottom top,bottom,text-top和text-bottom 作用在content内联元素上，使得content元素上下边框边缘或者文本框上下边缘（不是里面的子元素，就是该元素本身上下边框边缘或者文本框上下边缘）在行框的上下边框边缘或者文本框上下边缘，作用元素外面的内联元素的不受作用元素内部的内联元素影响，也不受作用元素影响，该干嘛还是干嘛，两者独立开来；
-#### 5) 比较
-> - vertical-align:middle top,bottom,text-top和text-bottom针对的还是作用元素他自己本身，跟它里面的内联元素没有半毛钱的关系，同时都会把行框撑大，最后也只有在middle的作用下，该一行的兄弟content内联元素才会受middle的影响，它和作用元素的垂直中线位于该一行的行框的垂直中线上，其他行不行。其他的（top,bottom,text-top和text-bottom）的作用下并不能影响兄弟content内联元素。		
-#### 6) 案例
+> - vertical-align:top bottom top,bottom,text-top和text-bottom 作用在content内联元素上，使得content元素上下边框边缘或者文本框上下边缘（不是里面的子元素，就是该元素本身上下边框边缘或者文本框上下边缘）在行框的上下边框边缘或者文本框上下边缘，但这种影响只能是单边作用，无法起到撑大行框的作用，只会撑大盒子元素的高度。作用元素外面的内联元素的不受作用元素内部的内联元素影响，也不受作用元素影响，该干嘛还是干嘛，两者独立开来。此时由于纯内联元素的上边缘或者下边缘发生移动，使得基线发生了移动，也就是或基线是跟着纯内联元素运动的，纯内联元素基线发生了运动，那么对准机制就发生了变化		
+#### 5) 案例
 > - 基于vertical-align 属性的水平垂直居中弹框		
 > - 关于父元素和子元素都不定高的垂直问题
 		
@@ -1014,7 +1000,9 @@
 			top: 0; right: 0; bottom: 0; left: 0;
 			background-color: rgba(0,0,0,.5);
 			text-align: center;
-			font-size: 0;		
+			font-size: 0;
+			/* 使得基线和中线重合*/
+			/* 其实用line-height：0替代也可以，只是line-height：0会继承给子元素，那么子元素里面的文字就会被挂在上边缘，你又得去弄子元素的line-height值，然而你又不好确定line-height到底去多少比较好，这就尴尬了*/
 			/* 保证伪元素的字不可见*/
 			white-space: nowrap;		
 			/* 使得整个父元素只有一行*/
@@ -1027,7 +1015,7 @@
 			height: 100%;
 			/* 撑起行框，使得整个父元素只有一行*/
 			vertical-align: middle;		
-			/* 影响周围的兄弟content内联元素，使其一起居中*/
+			/* 影响周围的纯内联元素，使其一起居中，但是基线也会跟着一起移动*/
 		}		
 		
 		.dialog {
@@ -1046,6 +1034,134 @@
 > - 他的基线是作为参考用的。所以vertical-align对它没有任何用处；
 > - 如果要消灭他的行间距，只有使用line-height=0的方法;
 > - 如果要消灭他的存在，只有使用fon-size=0的方法，但是会保留行间距；	
+	
+
+------    
+    
+    
+<h2 id='4'> 四、流的破坏与保护 </h2>
+<h3 id='4.1'> 4.1 魔鬼属性float</h3>     
+
+#### 1) 浮动的本质
+> - 呈现文字环绕的效果
+#### 2) 浮动的特点
+> - “鑫三无”准则：无宽度，无图片，无浮动，无浮动这是因为纯浮动的布局容差性比较差，容易出现严重的布局问题，还有很多兼容性的问题；
+>> - 包裹性
+>> - 块状化并格式化上下文
+>> - 破坏文档流
+>> - 没有任何margin的合并
+> - 不要指望使用text-align属性控制浮动元素的左右对齐，因为text-align对块级元素是无效的。
+#### 3) 文字环绕的作用原理
+> - 行框盒子与浮动元素的不可重叠性（块状盒子却可以重叠）；
+> - 父元素的高度坍塌（高度坍塌的时候对父元素以外大的元素也会有浮动的作用）；
+#### 4) 更深入的作用机制
+> - 浮动锚点 浮动锚点是float 元素所在的“流”中的一个点，这个点本身并不浮动，就表现而言更像一个没有margin、border 和padding 的空的内联元素；
+> - 浮动参考 浮动参考指的是浮动元素对齐参考的实体；
+> - 在CSS 世界中，float 元素的“浮动参考”是“行框盒子”，也就是float 元素在当前“行框盒子”内定位。再强调一遍，是“行框盒子”，不是外面的包含块盒子之类的东西。
+> - 然而，上面的解释有一个很大的漏洞就是，如果float 元素前后全是块元素，那根本没有“行框盒子”，何来对齐的说法？此时，就需要上面提到的“浮动锚点”出马了。“浮动锚点”这个术语名称本身很具有欺骗性，看上去应该与float 的定位位置有关，实际上关系浅薄，在我看来，其作用就是产生“行框盒子”，因为“浮动锚点”表现如同一个空的内联元素，有内联元素自然就有“行框盒子”，于是，float 元素对齐的参考实体“行框盒子”对于块状元素也同样适用了，只不过这个“行框盒子”由于没有任何内容，所以无尺寸，看不见也摸不着罢了。		
+
+<h3 id='4.2'> 4.2 float的天然克星clear</h3>     
+
+#### 1) 官方解释
+>> - “元素盒子的边不能和前面的浮动元素相邻。”
+#### 2) 需要注意的地方
+>> - 凡是clear:left 或者clear:right 起作用的地方，一定可以使用clear:both 替换！
+>> - clear 属性对“后面的”浮动元素不闻不问，因此，当clear:left 有效的时候，clear:right必定无效，也就是此时clear:left 等同于设置clear:both；同样地，clear:right 如果有效也是等同于设置clear:both。由此可见，clear:left 和clear:right 这两个声明就没有任何使用的价值，至少在CSS 世界中是如此，直接使用clear:both 吧。
+>> - 如下第三个item设置了clear:both，结果只有left有用，right却没有用
+>>>>>> ![图4-1 列表2行显示](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE4-1%20%E5%88%97%E8%A1%A82%E8%A1%8C%E6%98%BE%E7%A4%BA.png?raw=true)		
+
+#### 3) 不足之处
+>> - clear作用的元素必须是块级元素，所以伪元素的计算值必须改为inline-block
+>> - 使用清除浮动有时候也会有一些错位的发生，即使采用margin=-9999px也不济于事
+>>>>>> ![图4-2 清除浮动导致的错位](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE4-2%20%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E5%AF%BC%E8%87%B4%E7%9A%84%E9%94%99%E4%BD%8D.png?raw=true)		
+
+		
+<h3 id='4.3'> 4.3 CSS世界的结界——BFC</h3>     
+
+#### 1) 定义
+>> - BFC 全称为block formatting context，中文为“块级格式化上下文”。
+#### 2) 触发条件（任一即可）
+>> - <html>根元素；
+>> - float 的值不为none；
+>> - overflow 的值为auto、scroll 或hidden；
+>> - display 的值为table-cell、table-caption 和inline-block 中的任何一个；
+>> - position 的值不为relative 和static。
+>>>>>> ![图4-3 BFC的作用对比](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE4-3%20BFC%E7%9A%84%E4%BD%9C%E7%94%A8%E5%AF%B9%E6%AF%94.png?raw=true)		
+			
+			
+<h3 id='4.4'> 4.4 overflow与锚点</h3>     
+
+#### 1) 最佳结界——overflow
+>> - overflow 剪裁界线border box
+#### 2) 经典的不兼容问题
+>> - 在Chrome 浏览器下，如果容器可滚动（假设是垂直滚动），则padding-bottom 也算在滚动尺寸之内，IE 和Firefox 浏览器忽略padding-bottom。
+#### 3) overflow-x和overflow-y
+>> - 如果overflow-x 和overflow-y 属性中的一个值设置为visible 而另外一个设置为scroll、auto 或hidden，则visible 的样式表现会如同auto。也就是说，
+除非overflow-x 和overflow-y 的属性值都是visible，否则visible 会当成auto 来解析。换句话说，永远不可能实现一个方向溢出剪裁或滚动，另一方向内容溢出显示的效果。
+#### 4) overflow与锚点定位
+>> - #号定位表示置顶，如果后面跟着的是id名称，则可以定位到相应的元素位置
+>>>>>> ![图4-4 定位地址](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE4-4%20%E5%AE%9A%E4%BD%8D%E5%9C%B0%E5%9D%80.png?raw=true)	
+>> - page级锚点 使用更精练的代码表示就是：
+		
+		<a href="#1">发展历程></a>
+		<a name="1"></a>		
+		
+		
+#### 5) 锚点定位的本质
+>> - 锚点定位行为的发生，本质上是通过改变容器滚动高度或者宽度来实现的
+>> - 注意，这里说的是容器的滚动高度，而不是浏览器的滚动高度，这一点小小区分非常重要。
+>> - 锚点定位也可以发生在普通的容器元素上，而且定位行为的发生是由内而外的。
+>> - 其次就是设置了overflow:hidden 的元素也是可滚动的，这也是本小节的核心。说得更干脆点儿就是：overflow:hidden 跟overflow:auto 和overflow：scroll 的差别就在于有没有那个滚动条。元素设置了overflow:hidden 声明，里面内容高度溢出的时候，滚动依然存在，仅仅滚动条不存在！		
+			
+			
+<h3 id='4.5'> 4.5 absolute绝对定位</h3>     
+		
+#### 1) 包含块的规则
+>> - （1）根元素（很多场景下可以看成是<html>）被称为“初始包含块”，其尺寸等同于浏览器可视窗口的大小。
+>> - （2）对于其他元素，如果该元素的position 是relative 或者static，则“包含块”由其最近的块容器祖先盒的content box 边界形成。
+>> - （3）如果元素position:fixed，则“包含块”是“初始包含块”。
+>> - （4）如果元素position:absolute，则“包含块”由最近的position 不为static的祖先元素建立，具体方式如下。如果该祖先元素是纯inline 元素，则规则略复杂：
+>>>> - 假设给内联元素的前后各生成一个宽度为0 的内联盒子（inline box），则这两个内联盒子的padding box 外面的包围盒就是内联元素的“包含块”；
+>>>> - 如果该内联元素被跨行分割了，那么“包含块”是未定义的，也就是CSS2.1规范并没有明确定义，浏览器自行发挥。否则，“包含块”由该祖先的padding box 边界形成。
+>>>> - 如果没有符合条件的祖先元素，则“包含块”是“初始包含块”。		
+>>>>>> ![图4-5 Firefox 和Chrome 跨行内联](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE4-5%20Firefox%E5%92%8CChrome%E8%B7%A8%E8%A1%8C%E5%86%85%E8%81%94%E5%AF%B9%E6%AF%94.png?raw=true)			
+	
+#### 2) 无依赖absolute 绝对定位
+>> - 一个绝对定位元素，没有任何left/top/right/bottom 属性设置，并且其祖先元素全部都是非定位元素，其位置在本来应该出现的位置上，而且因为脱离文档流，不影响后续布局；下
+>> - 应用场景：各类图标定位 超越常规布局的排版（突入起来的警告提示不影响布局）拉列表的定位 placehoder的效果		
+#### 3) absolute可以不被overflow剪裁
+>> - 绝对定位元素不总是被父级overflow 属性剪裁，尤其当overflow 在绝对定位元素及其包含块之间的时候。或者换句话说：如果overflow 不是定位元素，同时绝对定位元素和overflow 容器之间也没有定位元素，则overflow 无法对absolute 元素进行剪裁。如：
+		
+		<div style="position: relative;">
+		<div style="overflow: hidden;">
+		<img src="1.jpg" style="position: absolute;">
+		</div>
+		</div>	
+		
+#### 3) absolute 与clip
+>> - clip 属性要想起作用，元素必须是绝对定位或者固定定位，也就是position 属性值必须是
+absolute 或者fixed。clip 属性语法如下：		
+		
+		clip: rect(top, right, bottom, left)			
+		
+>> - clip 隐藏仅仅是决定了哪部分是可见的，非可见部分无法响应点击事件等；然后，虽然视觉上隐藏，但是元素的尺寸依然是原本的尺寸，在IE 浏览器和Firefox 浏览器下抹掉了不可见区域尺寸对布局的影响，Chrome 浏览器却保留了	
+#### 4) absolute 的流体特性	
+>> - 必要条件 在特定条件下才具有，这个条件就是“对立方向同时发生定位的时候”
+>> - absolute 的margin:auto 居中
+		
+<h3 id='4.6'> 4.6 relative和fix</h3>     
+
+#### 1) position:relative 才是大哥
+>> - 相对自身定位偏移
+>> - relative 的定位还有另外两点值得一提：相对定位元素的left/top/right/bottom的百分比值是相对于包含块计算的，而不是自身。注意，虽然定位位移是相对自身，但是百分比值的计算值不是。
+>> - 当相对定位元素同时应用对立方向定位值的时候，也就是top/bottom 和left/right同时使用的时候，其表现和绝对定位差异很大。绝对定位是尺寸拉伸，保持流体特性，但是相对定位却是“你死我活”的表现，也就是说，只有一个方向的定位属性会起作用。而孰强孰弱。则是与文档流的顺序有关的，默认的文档流是自上而下、从左往右，因此top/bottom 同时使用的时候，bottom 被干掉；left/right 同时使用的时候，right 毙命。
+#### 2) relative 的最小化影响原则
+>> - “relative 的最小化影响原则”是张老师自己总结的一套更好地布局实践的原则，主要分为以下两部分：
+>>>> - （1）尽量不使用relative，如果想定位某些元素，看看能否使用“无依赖的绝对定位”；
+>>>> - （2）如果场景受限，一定要使用relative，则该relative 务必最小化。
+>>>>>> ![图4-6 relative的最小化影响原则](https://github.com/hblvsjtu/CSS_Study/blob/ApplicationPrimary/CSSWorldPicture/%E5%9B%BE4-6%20relative%E7%9A%84%E6%9C%80%E5%B0%8F%E5%8C%96%E5%BD%B1%E5%93%8D%E5%8E%9F%E5%88%99.png?raw=true)				
+
+#### 3) 强悍的position:fixed 固定定位
 
 
 
